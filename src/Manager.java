@@ -77,6 +77,10 @@ public class Manager {
 
 }
 class StockManager extends Manager{
+    public StockManager(){}
+    public StockManager(String ManagerName) {
+        super(ManagerName);
+    }
     public void addNewItemToInv(){
         Inventory.addItem();
     }
@@ -90,4 +94,11 @@ class StockManager extends Manager{
         Database.findItem(itemID);
     }
     public void findItem(String itemName){Database.findItem(itemName);}
+    public void viewItem(){Inventory.viewItem();}
+    public void viewAllItemDetails(){Inventory.viewAllItemDetails();}
+    public void checkStockLevels(){Inventory.checkStockLevels();}
+    public void viewAllSuppliers(){Inventory.dispSupplierInfo();}
+    public void searchForSupplier(){Inventory.searchSupplier();}
+    public void ItemsBySupplier(){Inventory.searchBySupplier();}
+
 }

@@ -2,6 +2,7 @@ import com.mysql.cj.jdbc.ha.ServerAffinityStrategy;
 import com.mysql.cj.log.Log;
 
 import java.sql.SQLOutput;
+import java.sql.Savepoint;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -54,7 +55,7 @@ class manager_menu {
             System.out.println("1: Manage Cashiers\n2: Manage Sales\n3: Logout");
             int choice = new Scanner(System.in).nextInt();
             while (choice < 1 || choice > 3) {
-                System.out.println("Invalid Choice, Please choose again...\n1: Manage Cashiers\n2: Manage Inventory\n3: Manage Stocks\n4: Manage Sales\n5: Logout   \nChoose one of the above...\n");
+                System.out.println("Invalid Choice, Please choose again...\n1: Manage Cashiers\n2: Manage Sales\n3: Logout   \nChoose one of the above...\n");
                 choice = new Scanner(System.in).nextInt();
             }
             switch (choice) {
@@ -137,60 +138,155 @@ class stockmanager_menu{
     public static void menu(){
         System.out.println("Welcome " + Login.stockManager.getManagerName() + "!");
         while (true) {
-            System.out.println("\nWhat would you like to do today\n");
-            System.out.println("\n1: View Inventory");
-            System.out.println("2: Add a New Item to Inventory");
-            System.out.println("3: Remove Item from Inventory");
-            System.out.println("4: Back to Main Menu\n");
-            int choice = new Scanner(System.in).nextInt();
-            switch (choice) {
-
+            System.out.println("What do you have in mind for today\n1: Manage Inventory\n2: Manage Stocks\n3: Manage Suppliers\n4: Logout");
+            int selection = new Scanner(System.in).nextInt();
+            switch (selection) {
                 case 1:
                     while (true) {
-                        System.out.println("\n1: Display all Items\n2: Search by Item ID or Name\n3: Back to Main Menu\n4: Back to Item Menu\n");
-                        choice = new Scanner(System.in).nextInt();
-                        if (choice == 1) {
-                            Login.stockManager.viewAllItems();
-                        } else if (choice == 2) {
-                            while (true) {
-                                System.out.println("\nPlease enter Item ID or Name: ");
-                                String SearchValue = new Scanner(System.in).nextLine();
-                                if (SearchValue.contentEquals("back") || SearchValue.contentEquals("Back")) {
-                                    break;
-                                }
-                                try {
-                                    int Id = Integer.parseInt(SearchValue);
-                                    Login.stockManager.findItem(Id);
-                                } catch (Exception e) {
-                                    Login.stockManager.findItem(SearchValue);
-                                }
+                        System.out.println("\nWhat would you like to do today\n");
+                        System.out.println("\n1: View Inventory");
+                        System.out.println("2: Add a New Item to Inventory");
+                        System.out.println("3: Remove Item from Inventory");
+                        System.out.println("4: Back to Main Menu\n");
+                        int choice = new Scanner(System.in).nextInt();
+                        switch (choice) {
 
-                            }
-                        } else if (choice == 3) {
+                            case 1:
+                                while (true) {
+                                    System.out.println("\n1: Display all Items\n2: Search by Item ID or Name\n3: Back to Main Menu\n4: Back to Item Menu\n");
+                                    choice = new Scanner(System.in).nextInt();
+                                    if (choice == 1) {
+                                        Login.stockManager.viewAllItems();
+                                    } else if (choice == 2) {
+                                        while (true) {
+                                            System.out.println("\nPlease enter Item ID or Name: ");
+                                            String SearchValue = new Scanner(System.in).nextLine();
+                                            if (SearchValue.contentEquals("back") || SearchValue.contentEquals("Back")) {
+                                                break;
+                                            }
+                                            try {
+                                                int Id = Integer.parseInt(SearchValue);
+                                                Login.stockManager.findItem(Id);
+                                            } catch (Exception e) {
+                                                Login.stockManager.findItem(SearchValue);
+                                            }
 
+                                        }
+                                    } else if (choice == 3) {
+
+                                        break;
+                                    } else if (choice == 4) {
+                                        break;
+                                    } else {
+                                        System.out.println("Please Give a valid input....\nChoose from the following options and enter the # of your choice");
+                                    }
+                                }
+                                break;
+
+                            case 2:
+                                System.out.println("\n\n");
+                                Login.stockManager.addNewItemToInv();
+                                break;
+
+                            case 3:
+                                Login.stockManager.removeItemFromInv();
+                                break;
+
+                            case 4:
+                                break;
+                        }
+                        if (choice == 4) {
                             break;
-                        } else if (choice == 4) {
-                            break;
-                        } else {
-                            System.out.println("Please Give a valid input....\nChoose from the following options and enter the # of your choice");
                         }
                     }
                     break;
-
                 case 2:
-                    System.out.println("\n\n");
-                    Login.stockManager.addNewItemToInv();
-                    break;
+                    while (true) {
+                        System.out.println("\nWhat would you like to do today\n");
+                        System.out.println("\n1: View Item Details");
+                        System.out.println("2: Check Stock Levels");
+                        System.out.println("3: Check Expired Items");
+                        System.out.println("4: Back to Main Menu\n");
+                        int choice = new Scanner(System.in).nextInt();
+                        switch (choice) {
 
+                            case 1:
+                                while (true) {
+                                    System.out.println("\n1: Display all Items\n2: Search by Item ID or Name\n3: Back to Main Menu\n4: Back to Item Menu\n");
+                                    choice = new Scanner(System.in).nextInt();
+                                    if (choice == 1) {
+                                        Login.stockManager.viewAllItemDetails();
+                                    } else if (choice == 2) {
+                                        while (true) {
+                                            Login.stockManager.viewItem();
+                                            System.out.println("\nWould you like to exit or continue viewing items ?(Press E to exit)");
+                                            String exit = new Scanner(System.in).nextLine();
+                                            if (exit.contentEquals("E") || exit.contentEquals("e")) {
+                                                break;
+                                            }
+                                        }
+                                    } else if (choice == 3) {
+
+                                        break;
+                                    } else if (choice == 4) {
+                                        break;
+                                    } else {
+                                        System.out.println("Please Give a valid input....\nChoose from the following options and enter the # of your choice");
+                                    }
+                                }
+                                break;
+
+                            case 2:
+                                System.out.println("\n\n");
+                                Login.stockManager.checkStockLevels();
+                                break;
+
+                            case 3:
+                                //Expired Items display Function
+                                break;
+
+                            case 4:
+                                break;
+                        }
+                        if (choice == 4) {
+                            break;
+                        }
+                    }
+                    break;
                 case 3:
-                    Login.stockManager.removeItemFromInv();
-                    break;
+                    while (true) {
+                        System.out.println("\nWhat would you like to do today\n");
+                        System.out.println("\n1: View All Suppliers");
+                        System.out.println("2: Search for Items by a Supplier");
+                        System.out.println("3: Search for a Supplier");
+                        System.out.println("4: Back to Main Menu\n");
+                        int choice = new Scanner(System.in).nextInt();
+                        switch (choice) {
 
-                case 4:
+                            case 1:
+                                Login.stockManager.viewAllSuppliers();
+                                break;
+
+                            case 2:
+
+                                Login.stockManager.ItemsBySupplier();
+                                break;
+
+                            case 3:
+                                Login.stockManager.searchForSupplier();
+                                break;
+
+                            case 4:
+                                break;
+                        }
+                        if (choice == 4) {
+                            break;
+                        }
+                    }
                     break;
-            }
-            if (choice == 4) {
-                break;
+                case 4:
+                    System.exit(1);
+                    break;
             }
         }
     }

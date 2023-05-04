@@ -46,7 +46,7 @@ public class Login {
                 manager = Database.get_ManagerDetails(Username);
             }
             else if(employeeType == Employee_type.StockManager){
-                stockManager = (StockManager) Database.get_ManagerDetails(Username);
+                stockManager = Database.get_StockManagerDetails(Username);
             }
 
         } else if (selection.contentEquals("C")||selection.contentEquals("c")) {
@@ -87,7 +87,7 @@ class Verify{
         else {return false;}
     }
     public static boolean Validate_Password(String Username,String passcode,Employee_type employeeType ) {
-        if (employeeType == Employee_type.BranchManager) {
+        if (employeeType == Employee_type.BranchManager||employeeType==Employee_type.StockManager) {
 
             boolean checkPasscode = Database.Validate_Manager(Username,passcode);
             int i = 1;

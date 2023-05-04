@@ -153,11 +153,18 @@ public class Inventory extends Item{
     }//checks stock levels and displays message accordingly
 
     public static void viewItem(){
-        System.out.println("Enter item name: ");
+        System.out.println("Enter Item Name or Item ID: ");
         String name = new Scanner(System.in).nextLine();
+        int[] stockLevs;
 
         Item item = Database.get_itemDetails(name);
-        int[] stockLevs = Database.printStock(name);
+        try{
+            int ID = Integer.parseInt(name);
+            stockLevs = Database.printStock(ID);
+
+        }catch(Exception e){
+            stockLevs = Database.printStock(name);
+        }
 
         System.out.println("\nThe item details are as follows: ");
         System.out.println("\nItem ID: " + item.getItemID());
@@ -171,6 +178,10 @@ public class Inventory extends Item{
         System.out.println("Minimum stock level: " + stockLevs[2]);
         System.out.println("Maximum stock level: " + stockLevs[1]);
     }//displays all details about the item
+
+    public static void viewAllItemDetails(){
+    Database.viewAllItems();
+    }//displays all details about all items
 
     public static void searchBySupplier(){
         System.out.println("Enter Supplier Name: ");

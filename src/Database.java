@@ -1,11 +1,13 @@
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Database {
     private static final String url = "jdbc:mysql://localhost:3306/employees";
     private static final String username = "root";
-    private static final String password = "Anum567@";
+    private static final String password = "Randhawa@147";
     public static int getSalesID() {
         int SalesID =0;
         try{
@@ -286,7 +288,6 @@ public class Database {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
     }
-
     public static void updateCashierInfo(){
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -363,6 +364,33 @@ public class Database {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
         return new Manager();
+    }
+    public static StockManager get_StockManagerDetails(String Username){
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM managerlogininfo");
+            while (rs.next()) {
+                String MPassword = rs.getString("MPassword");
+                String MUsername = rs.getString("MUsername");
+                String ManagerName = rs.getString("ManagerName");
+                if(MUsername.contentEquals(Username)) {
+                    return new StockManager(ManagerName);
+                }
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+
+        }
+        catch (SQLException e) {
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+        return new StockManager();
     }
     public static void get_SalesRecord(){
         try{
@@ -546,6 +574,44 @@ public class Database {
         //System.out.println("Check");
         return new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP);
     }//used in updateStockLevels() in class inventory
+    public static void viewAllItems(){
+        int ITEMID=0;
+        String ITEMNAME="";
+        double PRICE=0;
+        int QUANTITY=0;
+        String EXPIRYDATE="";
+        String SUPP="";
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
+            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name\t\t\tCurrent Stock Levels\t\t\tMax Stock Level\t\t\tMinimum Stock Level");
+            while (rs.next()){
+
+
+                    ITEMNAME =rs.getString("ItemName");
+                    ITEMID=rs.getInt("itemID");
+                    PRICE=rs.getDouble("Price");
+                    QUANTITY=rs.getInt("Quantity");
+                    EXPIRYDATE=rs.getString("ExpiryDate");
+                    SUPP= rs.getString("SupplierName");
+                    int[] stock_levels = Database.printStock(ITEMID);
+                System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %-30s %-31s %-29s %-20s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP,stock_levels[0],stock_levels[1],stock_levels[2]);
+                System.out.println();
+            }
+
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e){
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+        //System.out.println("Check");
+
+    }
     public static void viewInventory(){
 
         int ITEMID=0;
@@ -818,6 +884,45 @@ public class Database {
         }
         return stocks;
     }//used in viewItems() in class inventory
+    public static int[] printStock(int ID){
+        int current=0;
+        int max=0;
+        int min=0;
+        int[] stocks = new int[3];
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventoryprods INNER JOIN inventorylevels ON inventoryprods.itemID = inventorylevels.itemID WHERE inventoryprods.itemID = ?");
+            pstmt.setInt(1, ID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                if(rs.getInt("ItemID")==ID) {
+                    current = rs.getInt("CurrentstockLevel");
+                    max = rs.getInt("MaxStockLevel");
+                    min = rs.getInt("MinStockLevel");
+                }
+            }
+
+            stocks[0] = current;
+            stocks[1] = max;
+            stocks[2] = min;
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return stocks;
+    }//used in viewItems() in class inventory
     public static void searchBySupplier(String suppName){
         int ITEMID=0;
         String ITEMNAME="";
@@ -866,7 +971,7 @@ public class Database {
         }
 
         try{
-            String query = "DELETE inventory.inventoryprods, inventory.inventoryprods, inventory.inventorylevels\n" +
+            String query = "DELETE inventory.inventoryprods,  inventory.inventorylevels\n" +
                     "FROM inventory.inventoryprods\n" +
                     "INNER JOIN inventory.inventorylevels ON inventory.inventoryprods.itemID = inventory.inventorylevels.itemID\n" +
                     "WHERE inventory.inventoryprods.itemID = ?";
@@ -995,6 +1100,44 @@ public class Database {
             throw new RuntimeException(e);
         }
     }//used in searchSupplier() inventory class
+    public static void expDateCheck() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", username, password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Statement stmt1 = null;
+
+            String query = "SELECT * FROM inventoryprods WHERE ExpirationStatus IS NULL";
+            stmt1 = conn.createStatement();
+            ResultSet rs = stmt1.executeQuery(query);
+            PreparedStatement stmt2 = null;
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            while (rs.next()) {
+                System.out.println("Item Name: "+rs.getString("ItemName"));
+                if (dateFormat.format(rs.getDate("ExpiryDate")).contentEquals(DateAndTime.get_Date())) {
+                    int ID = rs.getInt("itemID");
+                    query = "UPDATE inventoryprods SET ExpirationStatus = ? WHERE itemID = ?";
+                    stmt2 = conn.prepareStatement(query);
+                    stmt2.setString(1,"Expired");
+                    stmt2.setInt(2, ID);
+                    stmt2.executeUpdate();
+                }
+            }
+
+            stmt1.close();
+            if (stmt2 != null) {
+                stmt2.close();
+            }
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database" + e.getMessage());
+        }
+    }
     public static void getOnlineOrderDetail() {
         int ORDERID = 0;
         int CUSTOMERID = 0;
@@ -1066,7 +1209,6 @@ public class Database {
             System.out.println("error connecting to database" + e.getMessage());
         }
     }
-
     public static void addNewOnlineOrder(int orderID, int customerID, String orderDate, String itemsOrdered, int numberOfItems, String deliveryDate, String address, String orderStatus, double orderTotal, String customerName, String phoneNumber, String emailAddress, String paymentMethod) throws SQLException{
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
         try {
