@@ -29,9 +29,9 @@ public class Manager {
             System.out.println("Record does not exist in Database.....");
         }
         else{System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\t\tShift Start Time\t\t\t\tShift End Time\t\t\t\t\tTotal Number Of Hours Worked");
-        for (Cashier cashier : cashiers) {
-            System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked());
-        }
+            for (Cashier cashier : cashiers) {
+                System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked());
+            }
         }
     }
     public void displayCashiers(){

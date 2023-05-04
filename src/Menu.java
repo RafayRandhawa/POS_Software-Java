@@ -77,15 +77,15 @@ class manager_menu {
                                         Login.manager.displayCashiers();
                                     } else if (choice == 2) {
                                         while (true){
-                                        System.out.println("\nPlease enter Cashier Code or Name: ");
-                                        String SearchValue = new Scanner(System.in).nextLine();
+                                            System.out.println("\nPlease enter Cashier Code or Name: ");
+                                            String SearchValue = new Scanner(System.in).nextLine();
                                             if(SearchValue.contentEquals("back")||SearchValue.contentEquals("Back")){break;}
-                                        try {
-                                            int CashierCode = Integer.parseInt(SearchValue);
-                                            Login.manager.searchCashier(CashierCode);
-                                        } catch (Exception e) {
+                                            try {
+                                                int CashierCode = Integer.parseInt(SearchValue);
+                                                Login.manager.searchCashier(CashierCode);
+                                            } catch (Exception e) {
                                                 Login.manager.searchCashier(SearchValue);
-                                        }
+                                            }
 
                                         }
                                     } else if (choice == 3) {
@@ -136,7 +136,7 @@ class manager_menu {
 class stockmanager_menu{
     public static void menu(){
         System.out.println("Welcome " + Login.stockManager.getManagerName() + "!");
-         while (true) {
+        while (true) {
             System.out.println("\nWhat would you like to do today\n");
             System.out.println("\n1: View Inventory");
             System.out.println("2: Add a New Item to Inventory");

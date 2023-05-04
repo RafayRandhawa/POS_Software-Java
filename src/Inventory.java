@@ -198,4 +198,8 @@ public class Inventory extends Item{
 
         Database.supplierInfoSearch(name);
     }//Enter supplier name to view details+
+
+    public static void expDateControl(){
+
+    }
 }

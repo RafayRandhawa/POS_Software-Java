@@ -74,12 +74,12 @@ class Verify{
             int i = 1;
             while(!checkPasscode && i<3){
                 i++;
-                System.out.println("Incorrect password entered");
+                System.out.println("Incorrect password entered.\nEnter password again.");
                 passcode = new Scanner(System.in).nextLine();
                 checkPasscode = Database.Validate_Cashier(CashierCode,passcode);
             }
             if(i==3){
-                System.out.println("Incorrect password entered thrice.\nSystem is locked.\nContact admin.");
+                System.out.println("\nIncorrect password entered thrice.\nSystem is locked.\nContact admin.");
                 System.exit(1);
             }
             return checkPasscode;
@@ -93,12 +93,12 @@ class Verify{
             int i = 1;
             while(!checkPasscode && i<3){
                 i++;
-                System.out.println("Incorrect password entered");
+                System.out.println("Incorrect password entered.\nEnter password again.");
                 passcode = new Scanner(System.in).nextLine();
                 checkPasscode = Database.Validate_Manager(Username,passcode);
             }
             if(i==3){
-                System.out.println("Incorrect password entered thrice.\nSystem is locked.\nContact admin.");
+                System.out.println("\nIncorrect password entered thrice.\nSystem is locked.\nContact admin.");
                 System.exit(1);
             }
             return checkPasscode;
