@@ -161,7 +161,8 @@ public class Database {
                 String JoinDate = rs.getString("JoiningDate");
                 String ShiftStart = rs.getString("ShiftStartTime");
                 String EndShift = rs.getString("ShiftEndTime");
-                cashierArrayList.add(new Cashier(id, name, TotalHoursWorked, JoinDate, ShiftStart, EndShift));
+                String EmploymentStatus = rs.getString("EmploymentStatus");
+                cashierArrayList.add(new Cashier(id, name, TotalHoursWorked, JoinDate, ShiftStart, EndShift,EmploymentStatus));
 
             }
             rs.close();
@@ -185,8 +186,9 @@ public class Database {
             String JoinDate = rs.getString("JoiningDate");
             String ShiftStart = rs.getString("ShiftStartTime");
             String EndShift = rs.getString("ShiftEndTime");
+            String EmploymentStatus = rs.getString("EmploymentStatus");
             if (id == code){
-                return new Cashier(id,name,TotalHoursWorked,JoinDate,ShiftStart,EndShift);
+                return new Cashier(id,name,TotalHoursWorked,JoinDate,ShiftStart,EndShift,EmploymentStatus);
                 }
             }
             rs.close();
@@ -212,8 +214,9 @@ public class Database {
                 String JoinDate = rs.getString("JoiningDate");
                 String ShiftStart = rs.getString("ShiftStartTime");
                 String EndShift = rs.getString("ShiftEndTime");
+                String EmploymentStatus = rs.getString("EmploymentStatus");
                 if (name.contentEquals(Cname)) {
-                    cashierArrayList.add(new Cashier(id, name, TotalHoursWorked, JoinDate, ShiftStart, EndShift));
+                    cashierArrayList.add(new Cashier(id, name, TotalHoursWorked, JoinDate, ShiftStart, EndShift,EmploymentStatus));
                 }
             }
             rs.close();
@@ -1100,6 +1103,66 @@ public class Database {
             throw new RuntimeException(e);
         }
     }//used in searchSupplier() inventory class
+    public static void getOnlineCustomerDetail(){
+        int CUSTOMERID = 0;
+        String CUSTOMERNAME = "";
+        String ADDRESS = "";
+        String PHNUMBER = "";
+        String EMAILADDRESS = "";
+        String PAYMENTMETHOD = "";
+
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+            conn.setAutoCommit(true);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
+            System.out.println("CustomerID\t Customer Name\t\t\t\t  Address\t\t\t\t\t  Phone Number\t\t\tEmail Address\t\t\t\t   Payment Method");
+            while (rs.next()) {
+                CUSTOMERID = rs.getInt("customerID");
+                CUSTOMERNAME = rs.getString("customerName");
+                ADDRESS = rs.getString("address");
+                PHNUMBER = rs.getString("phoneNumber");
+                EMAILADDRESS = rs.getString("emailAddress");
+                PAYMENTMETHOD = rs.getString("paymentMethod");
+                System.out.printf("\n%d \t\t %-20s\t%-35s %-15s %-30s\t\t %s",CUSTOMERID, CUSTOMERNAME, ADDRESS, PHNUMBER, EMAILADDRESS, PAYMENTMETHOD);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("error connecting to database" + e.getMessage());
+        }
+    }
+    public static void getOnlineCustomerDetail(int customerID){
+        int CUSTOMERID = 0;
+        String CUSTOMERNAME = "";
+        String ADDRESS = "";
+        String PHNUMBER = "";
+        String EMAILADDRESS = "";
+        String PAYMENTMETHOD = "";
+
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+            conn.setAutoCommit(true);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
+            while (rs.next()) {
+                if (rs.getInt("customerID") == (customerID)) {
+                    CUSTOMERID = rs.getInt("customerID");
+                    CUSTOMERNAME = rs.getString("customerName");
+                    ADDRESS = rs.getString("address");
+                    PHNUMBER = rs.getString("phoneNumber");
+                    EMAILADDRESS = rs.getString("emailAddress");
+                    PAYMENTMETHOD = rs.getString("paymentMethod");
+                    break;
+                }
+            }
+            System.out.println("\nCustomer ID: " + CUSTOMERID + "\nCustomer Name: " + CUSTOMERNAME + " \nAddress: " + ADDRESS + " \nPhone Number: " + PHNUMBER + "\nEmail Address: " + EMAILADDRESS + "\nPayment Method: " + PAYMENTMETHOD);
+
+        } catch (SQLException e) {
+            System.out.println("error connecting to database" + e.getMessage());
+        }
+    }
     public static void expDateCheck() {
         Connection conn = null;
         try {

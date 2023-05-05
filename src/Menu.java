@@ -9,13 +9,16 @@ import java.util.Scanner;
 public class Menu {}
 class cashier_menu{
     public static void menu() {
+        boolean first = true;
         while (true) {
-
+            if(!first){
             System.out.println("Type exit if you would like to Logout");
             String status = new Scanner(System.in).nextLine();
             if (status.contentEquals("exit") || status.contentEquals("exit")) {
                 break;
             }
+            }
+            else {first=false;}
             while (true) {
                 System.out.println("Enter Items to add to cart --> ");
                 System.out.println("Enter Item Name: ");

@@ -20,26 +20,26 @@ public class Manager {
         if(cashier.getCashierCode()==0||cashier.getCashierName()==null){
             System.out.println("Record does not exist in Database.....");
         }
-        System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\t\tShift Start Time\t\t\t\tShift End Time\t\t\t\t\tTotal Number Of Hours Worked");
-        System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked());
+        System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\tShift Start Time\t\t\tShift End Time\t\t\tTotal Number Of Hours Worked\t\t\tEmployment Status");
+        System.out.printf("\n%-15s\t %-15s %-25s %-25s \t%-30s %-30s %s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked(),cashier.getEmploymentStatus());
     }
     public void searchCashier(String CashierName) {
         ArrayList<Cashier> cashiers = Database.get_CashierDetails(CashierName);
         if(cashiers.isEmpty()){
             System.out.println("Record does not exist in Database.....");
         }
-        else{System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\t\tShift Start Time\t\t\t\tShift End Time\t\t\t\t\tTotal Number Of Hours Worked");
+        else{System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\tShift Start Time\t\t\tShift End Time\t\t\tTotal Number Of Hours Worked\t\t\tEmployment Status");
             for (Cashier cashier : cashiers) {
-                System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked());
+                System.out.printf("\n%-15s\t %-15s %-25s %-25s \t%-30s %-30s %s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked(),cashier.getEmploymentStatus());
             }
         }
     }
     public void displayCashiers(){
         ArrayList<Cashier> cashiers = Database.get_CashierDetails();
-        System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\t\tShift Start Time\t\t\t\tShift End Time\t\t\t\t\tTotal Number Of Hours Worked");
+        System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\tShift Start Time\t\t\tShift End Time\t\t\tTotal Number Of Hours Worked\t\t\tEmployment Status");
         for (Cashier cashier : cashiers) {
             String parse = String.valueOf(cashier.getTotalHoursWorked());
-            System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked());
+            System.out.printf("\n%-15s\t %-15s %-25s %-25s \t%-30s %-30s %s", cashier.getCashierCode(), cashier.getCashierName(), cashier.getJoinDate(), cashier.getShiftStart(), cashier.getEndShift(), cashier.getTotalHoursWorked(),cashier.getEmploymentStatus());
 
         }
     }
