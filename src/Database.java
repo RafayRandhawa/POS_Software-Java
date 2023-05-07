@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Database {
     private static final String url = "jdbc:mysql://localhost:3306/employees";
     private static final String username = "root";
-    private static final String password = "Anum567@";
+    private static final String password = "Randhawa@147";
     public static int getSalesID() {
         int SalesID =0;
         try{
@@ -422,7 +422,8 @@ public class Database {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
     }
-    public static void get_SalesRecord(int cashier_code){
+    public static boolean get_SalesRecord(int cashier_code){
+        boolean found=false;
         try{
             Connection conn = DriverManager.getConnection(url,username,password);
 
@@ -438,6 +439,7 @@ public class Database {
                 int NoOfItems= rs.getInt("NoOfItems");
                 String PaymentMethod= rs.getString("PaymentMethod");
                 if(CashierCode==cashier_code){
+                    found=true;
                 System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
             }
             }
@@ -450,6 +452,7 @@ public class Database {
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
+        return found;
     }
     public static void get_SalesRecord(int salesID,int Parameter_Restriction){
         //Second int parameter has no functional value
@@ -1103,7 +1106,7 @@ public class Database {
             throw new RuntimeException(e);
         }
     }//used in searchSupplier() inventory class
-    public static void getOnlineCustomerDetail(){
+    public static void getDeliveryCustomerDetail(){
         int CUSTOMERID = 0;
         String CUSTOMERNAME = "";
         String ADDRESS = "";
@@ -1132,7 +1135,7 @@ public class Database {
             System.out.println("error connecting to database" + e.getMessage());
         }
     }
-    public static void getOnlineCustomerDetail(int customerID){
+    public static void getDeliveryCustomerDetail(int customerID){
         int CUSTOMERID = 0;
         String CUSTOMERNAME = "";
         String ADDRESS = "";
@@ -1230,7 +1233,7 @@ public class Database {
             System.out.println("Error connecting to database" + e.getMessage());
         }
     }
-    public static void getOnlineOrderDetail() {
+    public static void getHomeOrderDetail() {
         int ORDERID = 0;
         int CUSTOMERID = 0;
         String ADDRESS = "";
@@ -1265,7 +1268,7 @@ public class Database {
             System.out.println("Error connecting to database" + e.getMessage());
         }
     }
-    public static void getOnlineOrderDetail(int orderID) {
+    public static void getHomeOrderDetail(int orderID) {
         int ORDERID = 0;
         int CUSTOMERID = 0;
         String ADDRESS = "";
@@ -1301,31 +1304,29 @@ public class Database {
             System.out.println("error connecting to database" + e.getMessage());
         }
     }
-    public static void addNewOnlineOrder(int orderID, int customerID, String orderDate, String itemsOrdered, int numberOfItems, String deliveryDate, String address, String orderStatus, double orderTotal, String customerName, String phoneNumber, String emailAddress, String paymentMethod) throws SQLException{
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+    public static void addNewDeliveryOrder(String orderDate, String itemsOrdered, int numberOfItems, String deliveryDate, String address, double orderTotal, String customerName, String phoneNumber, String emailAddress, String paymentMethod){
+        Connection conn = null;
         try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+
             conn.setAutoCommit(true);
 
             PreparedStatement stmt1;
-            stmt1 = conn.prepareStatement("INSERT INTO onlineorders (orderID, customerID, orderDate, itemsOrdered, numberOfItems, deliveryDate, address, orderStatus, orderTotal) VALUES (?,?,?,?,?,?,?,?,?)");
-            stmt1.setInt(1,orderID);
-            stmt1.setInt(2,customerID);
-            stmt1.setString(3,orderDate);
-            stmt1.setString(4,itemsOrdered);
-            stmt1.setInt(5,numberOfItems);
-            stmt1.setString(6,deliveryDate);
-            stmt1.setString(7,address);
-            stmt1.setString(8,orderStatus);
-            stmt1.setDouble(9,orderTotal);
+            stmt1 = conn.prepareStatement("INSERT INTO onlineorders (orderDate, itemsOrdered, numberOfItems, deliveryDate, address, orderTotal) VALUES (?,?,?,?,?,?)");
+            stmt1.setString(1,orderDate);
+            stmt1.setString(2,itemsOrdered);
+            stmt1.setInt(3,numberOfItems);
+            stmt1.setString(4,deliveryDate);
+            stmt1.setString(5,address);
+            stmt1.setDouble(6,orderTotal);
 
             PreparedStatement stmt2;
-            stmt2 = conn.prepareStatement("INSERT INTO customers (customerID, customerName, address, phoneNumber, emailAddress, paymentMethod) VALUES(?,?,?,?,?,?)");
-            stmt2.setInt(1,customerID);
-            stmt2.setString(2,customerName);
-            stmt2.setString(3,address);
-            stmt2.setString(4,phoneNumber);
-            stmt2.setString(5,emailAddress);
-            stmt2.setString(6,paymentMethod);
+            stmt2 = conn.prepareStatement("INSERT INTO customers (customerName, address, phoneNumber, emailAddress, paymentMethod) VALUES(?,?,?,?,?)");
+            stmt2.setString(1,customerName);
+            stmt2.setString(2,address);
+            stmt2.setString(3,phoneNumber);
+            stmt2.setString(4,emailAddress);
+            stmt2.setString(5,paymentMethod);
 
             int rowsInserted1 = stmt1.executeUpdate();
             int rowsInserted2 = stmt2.executeUpdate();
@@ -1338,9 +1339,14 @@ public class Database {
                 System.out.println("A new online record was inserted successfully");
         }catch(SQLException e) {
             System.out.println("Error connecting to database: "+e.getMessage());
-            conn.rollback();
+            try {
+                conn.rollback();
+            }
+            catch (SQLException a){
+
+            }
+            }
         }
-    }
 
     public static void dispProdPerformance(){
         int itemID=0;

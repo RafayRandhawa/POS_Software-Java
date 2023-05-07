@@ -69,8 +69,8 @@ public class Manager {
     public void viewAllSales(int SalesID,int ParameterRestriction){
         Database.get_SalesRecord(SalesID,1);
     }
-    public void viewAllSales(int CashierCode){
-        Database.get_SalesRecord(CashierCode);
+    public boolean viewAllSales(int CashierCode){
+        return Database.get_SalesRecord(CashierCode);
     }
 
 

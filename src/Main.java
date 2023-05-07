@@ -12,6 +12,5 @@ public class Main {
         else if (Login.employeeType == Employee_type.StockManager) {
             stockmanager_menu.menu();
         }
-
     }
 }
