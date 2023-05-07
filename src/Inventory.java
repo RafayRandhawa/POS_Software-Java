@@ -211,6 +211,7 @@ public class Inventory extends Item{
     }//Enter supplier name to view details+
 
     public static void expDateControl(){
-
+        System.out.println("The list of expired products in the inventory");
+        Database.expDate();
     }
 }

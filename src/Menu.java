@@ -20,19 +20,19 @@ class cashier_menu{
             }
             else {first=false;}
             while (true) {
-                System.out.println("Enter Items to add to cart --> ");
-                System.out.println("Enter Item Name: ");
+                System.out.println("\nEnter Items to add to cart --> \n(Type done when you're finished)");
+                System.out.println("\nItem Name: ");
                 String itemName = new Scanner(System.in).nextLine();
                 if (itemName.contentEquals("Done") || itemName.contentEquals("done")) {
                     break;
                 }
-                System.out.println("Enter Item Quantity: ");
+                System.out.println("Item Quantity: ");
                 int itemQuantity = new Scanner(System.in).nextInt();
                 Cart.add_item(Database.get_itemDetails(itemName, itemQuantity));
             }
 
 
-            System.out.println("Do you want to remove an item? Press y if yes");
+            System.out.println("Do you want to remove an item? (y/n)");
             String opt = new Scanner(System.in).nextLine();
 
             if (opt.contentEquals("y") || opt.contentEquals("Y")) {

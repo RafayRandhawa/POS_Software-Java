@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Database {
     private static final String url = "jdbc:mysql://localhost:3306/employees";
     private static final String username = "root";
-    private static final String password = "Randhawa@147";
+    private static final String password = "Anum567@";
     public static int getSalesID() {
         int SalesID =0;
         try{
@@ -1201,6 +1201,35 @@ public class Database {
             System.out.println("Error connecting to database" + e.getMessage());
         }
     }
+
+    public static void expDate() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", username, password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Statement stmt1 = null;
+
+            System.out.println("Item ID\t\t Item Name\n");
+            String query = "SELECT * FROM inventoryprods WHERE ExpirationStatus = 'Expired'";
+            stmt1 = conn.createStatement();
+            ResultSet rs = stmt1.executeQuery(query);
+            while (rs.next()) {
+                int ID = rs.getInt("itemID");
+                String name = rs.getString("ItemName");
+                System.out.printf("%-13s %-10s\n", ID, name);
+            }
+
+            stmt1.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database" + e.getMessage());
+        }
+    }
     public static void getOnlineOrderDetail() {
         int ORDERID = 0;
         int CUSTOMERID = 0;
@@ -1310,6 +1339,193 @@ public class Database {
         }catch(SQLException e) {
             System.out.println("Error connecting to database: "+e.getMessage());
             conn.rollback();
+        }
+    }
+
+    public static void dispProdPerformance(){
+        int itemID=0;
+        String ItemName="";
+        int targetS = 0;
+        int actualS = 0;
+        int avgS = 0;
+        double profitMargin = 0.0;
+        double unitP = 0.0;
+        double costP = 0.0;
+        int salesRank = 0;
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/salesrecords",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("ID\tIteam Name\t\tTarget Sale Quantity\t\tActual Sale Quantity\t\tAverage Sale Quantity\t\t Profit Margin\t\tUnit Price\t\tCost Price\t\tSales Rank");
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM salesrecords.productperformance");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                itemID=rs.getInt("itemID");
+                ItemName =rs.getString("ItemName");
+                targetS=rs.getInt("targetSaleQuantity");
+                actualS=rs.getInt("actualSaleQuantity");
+                avgS=rs.getInt("avgSaleQuantity");
+                profitMargin=rs.getDouble("profitMargin");
+                unitP=rs.getDouble("unitPrice");
+                costP=rs.getDouble("costPrice");
+                salesRank=rs.getInt("salesRank");
+
+                System.out.printf("\n%s\t %-20s %-30s %-25s \t%-25s %-15s %-15s %-17s %-18s",itemID,ItemName,targetS,actualS,avgS,profitMargin,unitP,costP,salesRank);
+                System.out.println();
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }//displays product performance during one month
+
+    public static sales calcSalesAnalytics(int ID){
+        int itemID=0;
+        String ItemName="";
+        int targetS = 0;
+        int actualS = 0;
+        int avgS = 0;
+        double profitMargin = 0.0;
+        double unitP = 0.0;
+        double costP = 0.0;
+        int salesRank = 0;
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/salesrecords",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM salesrecords.productperformance");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                if(rs.getInt("itemID") == ID) {
+                    itemID = rs.getInt("itemID");
+                    ItemName = rs.getString("ItemName");
+                    targetS = rs.getInt("targetSaleQuantity");
+                    actualS = rs.getInt("actualSaleQuantity");
+                    avgS = rs.getInt("avgSaleQuantity");
+                    profitMargin = rs.getDouble("profitMargin");
+                    unitP = rs.getDouble("unitPrice");
+                    costP = rs.getDouble("costPrice");
+                    salesRank = rs.getInt("salesRank");
+                }
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return new sales(itemID, ItemName, targetS, actualS,  avgS, profitMargin, unitP, costP, salesRank);
+    }//used in prodPerformanceInsight() in sales class
+
+    public static void inventoryPerformance(){
+        int targetS = 0;
+        int actualS = 0;
+        double unitP = 0.0;
+        double costP = 0.0, profit = 0, loss = 0;
+        int itemsSold = 0, titemsSold = 0;
+        int targetCount = 0, actualCount = 0, equalCount = 0;
+        double totalRev = 0, expectedRev = 0, totalExpenses = 0;
+        ArrayList<String> popular = new ArrayList<>();
+        ArrayList<String> least = new ArrayList<>();
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/salesrecords",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM salesrecords.productperformance");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                targetS=rs.getInt("targetSaleQuantity");
+                actualS=rs.getInt("actualSaleQuantity");
+                unitP=rs.getDouble("unitPrice");
+                costP=rs.getDouble("costPrice");
+
+                if(targetS > actualS){
+                    targetCount++;
+                }
+                else if(targetS < actualS){
+                    actualCount++;
+                }
+                else{
+                    equalCount++;
+                }
+
+                totalExpenses = totalExpenses + (actualS * costP);
+                totalRev = totalRev + (actualS * unitP);
+
+                expectedRev = expectedRev + (targetS * unitP);
+                itemsSold = itemsSold + actualS;
+                titemsSold = titemsSold + targetS;
+
+                if(actualS > 2000){
+                    popular.add(rs.getString("ItemName"));
+                }
+
+                if(actualS < 300){
+                    least.add(rs.getString("ItemName"));
+                }
+            }
+            System.out.println("***Monthly Inventory Performance Insight***\n");
+            System.out.printf("Total Expenses: %.2f\n", totalExpenses);
+            System.out.println("Expected Revenue: " + expectedRev);
+            System.out.println("Revenue generated: " + totalRev);
+            System.out.println();
+
+            if(totalRev > totalExpenses){
+                profit = totalRev - totalExpenses;
+                System.out.printf("Gross Profit: %.2f\n", profit);
+            }
+            else{
+                loss = totalExpenses - totalRev;
+                System.out.printf("Net Loss: %.2f\n", loss);
+            }
+
+            System.out.println();
+            System.out.println("Number of items which did not surpass target sales: " + targetCount);
+            System.out.println("Number of items which surpassed target sales: " + actualCount);
+            System.out.println("Number of items with equal target and actual sales: " + equalCount);
+            System.out.println("Expected number of items to be sold: " + titemsSold);
+            System.out.println("Number of items sold: " + itemsSold);
+            System.out.println();
+
+            System.out.println("Most popular product(s)\n");
+            for (String value : popular) {
+                System.out.println(value);
+            }
+            System.out.println("\nLeast popular product(s)\n");
+            for (String s : least) {
+                System.out.println(s);
+            }
+
+            System.out.println();
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

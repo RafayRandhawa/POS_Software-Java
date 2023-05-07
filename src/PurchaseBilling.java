@@ -72,6 +72,7 @@ class PurchaseBilling {
         System.out.printf("Amount after applying discount (if any): %.2f",discounted_amount);
         if (payment_method.contentEquals("Cash")){
             System.out.println("\nPayment Method: Cash");
+            System.out.println("Enter the amount received from the customer");
             double enteredAmount = new Scanner(System.in).nextInt();
             System.out.printf("Amount received: %.2f\n",enteredAmount);
             System.out.printf("Change: %.2f\n",(enteredAmount-total_amount));
