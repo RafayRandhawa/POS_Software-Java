@@ -33,6 +33,7 @@ class PurchaseBilling {
                 System.out.println("Invalid Selection: Please pick one of the given options... ");
             }
         }
+        double enteredAmount = 0;
         String payment_method="";
         switch(selection){
             case 1: payment_method = "Card (Credit)";
@@ -42,6 +43,16 @@ class PurchaseBilling {
             case 3: payment_method = "Card (Master)";
                 break;
             case 4: payment_method = "Cash";
+                System.out.println("Enter the amount received from the customer");
+                while (true) {
+                    enteredAmount = new Scanner(System.in).nextInt();
+                    if (enteredAmount<total_amount){
+                        System.out.println("The entered amount is less than the total amount...Please Collect the right amount from the Customer");
+                    }
+                    else {
+                        break;
+                    }
+                }
                 break;
             case 5: payment_method = "Card (Visa)";
                 break;
@@ -72,8 +83,7 @@ class PurchaseBilling {
         System.out.printf("Amount after applying discount (if any): %.2f",discounted_amount);
         if (payment_method.contentEquals("Cash")){
             System.out.println("\nPayment Method: Cash");
-            System.out.println("Enter the amount received from the customer");
-            double enteredAmount = new Scanner(System.in).nextInt();
+
             System.out.printf("Amount received: %.2f\n",enteredAmount);
             System.out.printf("Change: %.2f\n",(enteredAmount-total_amount));
         }

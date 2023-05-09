@@ -10,79 +10,95 @@ import java.util.Scanner;
 public class Menu {}
 class cashier_menu {
     public static void menu() {
-        System.out.println("Press H for home delivery or R for retail store");
-        String choice = new Scanner(System.in).next();
-        if (choice.contentEquals("H") || choice.contentEquals("h")) {
-            while (true) {
-                System.out.println("Enter a new record for the the home delivery system:\n(Type done when you're finished)");
-                System.out.println("Order date: ");
-                String orderDate = new Scanner(System.in).nextLine();
-                if (orderDate.equals("Done") || orderDate.equals("done"))
-                    break;
-                System.out.println("Items ordered: ");
-                String itemsOrdered = new Scanner(System.in).nextLine();
-                System.out.println("Number of items: ");
-                int numberOfItems = new Scanner(System.in).nextInt();
-                System.out.println("Delivery Date: ");
-                String deliveryDate = new Scanner(System.in).nextLine();
-                System.out.println("Address: ");
-                String address = new Scanner(System.in).nextLine();
-                System.out.println("Order Total: ");
-                double orderTotal = new Scanner(System.in).nextDouble();
-                System.out.println("Customer Name: ");
-                String customerName = new Scanner(System.in).nextLine();
-                System.out.println("Customer's Contact number: ");
-                String phNumber = new Scanner(System.in).next();
-                System.out.println("Customer's E-mail address: ");
-                String email = new Scanner(System.in).next();
-                System.out.println("Payment Method: ");
-                String paymentMethod = new Scanner(System.in).next();
-
-                Database.addNewDeliveryOrder(orderDate, itemsOrdered, numberOfItems, deliveryDate, address, orderTotal, customerName, phNumber, email, paymentMethod);
+        while (true){
+        System.out.println("\nPress H for home delivery or R for retail store");
+            System.out.println("Type exit if you would like to Logout...");
+            String choice = new Scanner(System.in).next();
+            if (choice.contentEquals("exit") || choice.contentEquals("exit")) {
+                System.exit(1);
             }
 
-        } else if (choice.equals("r") || choice.equals("R")) {
-
-            boolean first = true;
-            while (true) {
-                if (!first) {
-                    System.out.println("Type exit if you would like to Logout");
-                    String status = new Scanner(System.in).nextLine();
-                    if (status.contentEquals("exit") || status.contentEquals("exit")) {
-                        break;
-                    }
-                } else {
-                    first = false;
-                }
+            if (choice.contentEquals("H") || choice.contentEquals("h")) {
                 while (true) {
-                    System.out.println("\nEnter Items to add to cart --> \n(Type done when you're finished)");
-                    System.out.println("\nItem Name: ");
-                    String itemName = new Scanner(System.in).nextLine();
-                    if (itemName.contentEquals("Done") || itemName.contentEquals("done")) {
+                    String orderDate = DateAndTime.get_Date();
+                    System.out.println("Items ordered: ");
+                    String itemsOrdered = new Scanner(System.in).nextLine();
+                    System.out.println("Number of items: ");
+                    int numberOfItems = new Scanner(System.in).nextInt();
+                    System.out.println("Delivery Date: ");
+                    String deliveryDate = new Scanner(System.in).nextLine();
+                    System.out.println("Address: ");
+                    String address = new Scanner(System.in).nextLine();
+                    System.out.println("Order Total: ");
+                    double orderTotal = new Scanner(System.in).nextDouble();
+                    System.out.println("Customer Name: ");
+                    String customerName = new Scanner(System.in).nextLine();
+                    System.out.println("Customer's Contact number: ");
+                    String phNumber = new Scanner(System.in).next();
+                    System.out.println("Customer's E-mail address: ");
+                    String email = new Scanner(System.in).next();
+                    System.out.println("Payment Method: ");
+                    String paymentMethod = new Scanner(System.in).next();
+
+                    Database.addNewDeliveryOrder(orderDate, itemsOrdered, numberOfItems, deliveryDate, address, orderTotal, customerName, phNumber, email, paymentMethod);
+                    System.out.println("Are there any more orders?(Y/N)");
+                    String c = new Scanner(System.in).next();
+                    if(c.contentEquals("N") || c.contentEquals("n")){
                         break;
                     }
-                    System.out.println("Item Quantity: ");
-                    int itemQuantity = new Scanner(System.in).nextInt();
-                    Cart.add_item(Database.get_itemDetails(itemName, itemQuantity));
                 }
 
+            } else if (choice.equals("r") || choice.equals("R")) {
+                while (true) {
 
-                System.out.println("Do you want to remove an item? (y/n)");
-                String opt = new Scanner(System.in).nextLine();
+                    while (true) {
+                        System.out.println("\nEnter Items to add to cart --> \n(Type done when you're finished)");
+                        System.out.println("\nItem Name: ");
+                        String itemName = new Scanner(System.in).nextLine();
+                        if (itemName.contentEquals("Done") || itemName.contentEquals("done")) {
+                            break;
+                        }
+                        System.out.println("Item Quantity: ");
+                        int itemQuantity = new Scanner(System.in).nextInt();
+                        Cart.add_item(Database.get_itemDetails(itemName, itemQuantity));
+                    }
 
-                if (opt.contentEquals("y") || opt.contentEquals("Y")) {
-                    System.out.println("Enter index number of item");
-                    int index = new Scanner(System.in).nextInt();
-                    Cart.remove_item(index);
+                    while (true) {
+                        System.out.println("Do you want to remove an item? (y/n)");
+                        String opt = new Scanner(System.in).nextLine();
+                        int temp = 1;
+                        if (opt.contentEquals("y") || opt.contentEquals("Y")) {
+                            for (Item item : Cart.getInventoryList()) {
+                                System.out.println("Index: " + temp + "\tItem Name: " + item.getItemName());
+                                temp++;
+                            }
+                            System.out.println("Enter index number of item to remove");
+                            int index = new Scanner(System.in).nextInt();
+                            Cart.remove_item(index);
+                        } else if (opt.contentEquals("n")||opt.contentEquals("N")) {
+                            break;
+                        }
+                        else {
+                            System.out.println("Please enter a valid option...");
+                        }
+                    }
+
+                    System.out.println("Proceeding to Payment -->");
+                    PurchaseBilling.billing();
+                    Inventory.updateStockLevels();
+                    System.out.println("\n\n\n\n\n");
+                    System.out.println("Would you like to continue with retail (Y/N)");
+                    String c = new Scanner(System.in).next();
+                    if(c.contentEquals("N") || c.contentEquals("n")){
+                        break;
+                    }
                 }
-
-
-                System.out.println("Proceeding to Payment -->");
-                PurchaseBilling.billing();
-                Inventory.updateStockLevels();
-                System.out.println("\n\n\n\n\n");
+            }
+            else {
+                System.out.println("Please give a valid input...");
             }
         }
+
     }
 }
 class manager_menu {
@@ -118,6 +134,7 @@ class manager_menu {
                                     } else if (choice == 2) {
                                         while (true){
                                             System.out.println("\nPlease enter Cashier Code or Name: ");
+                                            System.out.println("Enter 'back' to go to Cashier Menu.");
                                             String SearchValue = new Scanner(System.in).nextLine();
                                             if(SearchValue.contentEquals("back")||SearchValue.contentEquals("Back")){break;}
                                             try {
@@ -261,7 +278,7 @@ class stockmanager_menu{
     public static void menu(){
         System.out.println("Welcome " + Login.stockManager.getManagerName() + "!");
         while (true) {
-            System.out.println("What do you have in mind for today\n1: Manage Inventory\n2: Manage Stocks\n3: Manage Suppliers\n4: Logout");
+            System.out.println("\nWhat do you have in mind for today\n1: Manage Inventory\n2: Manage Stocks\n3: Manage Suppliers\n4: Logout");
             int selection = new Scanner(System.in).nextInt();
             switch (selection) {
                 case 1:
@@ -283,6 +300,7 @@ class stockmanager_menu{
                                     } else if (choice == 2) {
                                         while (true) {
                                             System.out.println("\nPlease enter Item ID or Name: ");
+                                            System.out.println("Enter 'back' to go back to Inventory Menu.");
                                             String SearchValue = new Scanner(System.in).nextLine();
                                             if (SearchValue.contentEquals("back") || SearchValue.contentEquals("Back")) {
                                                 break;
@@ -365,7 +383,7 @@ class stockmanager_menu{
                                 break;
 
                             case 3:
-                                //Expired Items display Function
+                                Login.stockManager.expDateControl();
                                 break;
 
                             case 4:

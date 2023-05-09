@@ -440,8 +440,8 @@ public class Database {
                 String PaymentMethod= rs.getString("PaymentMethod");
                 if(CashierCode==cashier_code){
                     found=true;
-                System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
-            }
+                    System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
+                }
             }
             rs.close();
             stmt.close();
@@ -1204,7 +1204,6 @@ public class Database {
             System.out.println("Error connecting to database" + e.getMessage());
         }
     }
-
     public static void expDate() {
         Connection conn = null;
         try {
@@ -1310,16 +1309,6 @@ public class Database {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
 
             conn.setAutoCommit(true);
-
-            PreparedStatement stmt1;
-            stmt1 = conn.prepareStatement("INSERT INTO onlineorders (orderDate, itemsOrdered, numberOfItems, deliveryDate, address, orderTotal) VALUES (?,?,?,?,?,?)");
-            stmt1.setString(1,orderDate);
-            stmt1.setString(2,itemsOrdered);
-            stmt1.setInt(3,numberOfItems);
-            stmt1.setString(4,deliveryDate);
-            stmt1.setString(5,address);
-            stmt1.setDouble(6,orderTotal);
-
             PreparedStatement stmt2;
             stmt2 = conn.prepareStatement("INSERT INTO customers (customerName, address, phoneNumber, emailAddress, paymentMethod) VALUES(?,?,?,?,?)");
             stmt2.setString(1,customerName);
@@ -1327,6 +1316,24 @@ public class Database {
             stmt2.setString(3,phoneNumber);
             stmt2.setString(4,emailAddress);
             stmt2.setString(5,paymentMethod);
+            Statement stmt = null;
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
+            String cusID="";
+            while (rs.next()){
+                cusID = rs.getString("customerID");
+            }
+            PreparedStatement stmt1;
+            stmt1 = conn.prepareStatement("INSERT INTO onlineorders (customerID,orderDate, itemsOrdered, numberOfItems, deliveryDate, address, orderTotal) VALUES (?,?,?,?,?,?,?)");
+            stmt1.setString(1,cusID);
+            stmt1.setString(2,orderDate);
+            stmt1.setString(3,itemsOrdered);
+            stmt1.setInt(4,numberOfItems);
+            stmt1.setString(5,deliveryDate);
+            stmt1.setString(6,address);
+            stmt1.setDouble(7,orderTotal);
+
+
 
             int rowsInserted1 = stmt1.executeUpdate();
             int rowsInserted2 = stmt2.executeUpdate();

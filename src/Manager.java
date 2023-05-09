@@ -7,11 +7,9 @@ public class Manager {
     public Manager(String name){
         this.ManagerName = name;
     }
-
     public String getManagerName() {
         return ManagerName;
     }
-
     public void setManagerName(String managerName) {
         ManagerName = managerName;
     }
@@ -72,9 +70,6 @@ public class Manager {
     public boolean viewAllSales(int CashierCode){
         return Database.get_SalesRecord(CashierCode);
     }
-
-
-
 }
 class StockManager extends Manager{
     public StockManager(){}
@@ -100,5 +95,6 @@ class StockManager extends Manager{
     public void viewAllSuppliers(){Inventory.dispSupplierInfo();}
     public void searchForSupplier(){Inventory.searchSupplier();}
     public void ItemsBySupplier(){Inventory.searchBySupplier();}
+    public void expDateControl(){Inventory.expDateControl();}
 
 }
