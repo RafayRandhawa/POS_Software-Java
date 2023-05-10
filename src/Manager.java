@@ -32,6 +32,15 @@ public class Manager {
             }
         }
     }
+    static public ArrayList<Cashier> searchCashierList(String CashierName) {
+        ArrayList<Cashier> cashiers = Database.get_CashierDetails(CashierName);
+        return cashiers;
+    }
+    static public ArrayList<Cashier> searchCashierList(int CashierName) {
+        ArrayList<Cashier> cashiers = new ArrayList<>();
+        cashiers.add(Database.get_CashierDetails(CashierName));
+        return cashiers;
+    }
     public void displayCashiers(){
         ArrayList<Cashier> cashiers = Database.get_CashierDetails();
         System.out.println("Cashier Code\tCashier Name\tJoining Date\t\t\tShift Start Time\t\t\tShift End Time\t\t\tTotal Number Of Hours Worked\t\t\tEmployment Status");

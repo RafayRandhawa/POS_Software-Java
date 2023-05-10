@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cart {
-    private static ArrayList<Item> inventoryList = new ArrayList<Item>(1);
+    public static ArrayList<Item> inventoryList = new ArrayList<Item>(1);
 
     public static int getInventoryListSize() {
         return Cart.inventoryList.size();
@@ -29,6 +29,11 @@ public class Cart {
         else {
             System.out.println("Item was not removed. ");
         }
+    }
+    public static void remove(int index){
+        index-=1;
+        Item i = inventoryList.get(index);
+       inventoryList.remove(index);
     }
     public static void remove_item(int index,int quantity){
         index-=1;

@@ -1,10 +1,3 @@
-import com.mysql.cj.jdbc.ha.ServerAffinityStrategy;
-import com.mysql.cj.log.Log;
-
-import java.sql.SQLException;
-import java.sql.SQLOutput;
-import java.sql.Savepoint;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {}

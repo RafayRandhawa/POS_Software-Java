@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="562.0" prefWidth="910.0" style="-fx-background-color: #bbe1ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PaymentScreenController">
+   <children>
+      <RadioButton fx:id="Crd" layoutX="256.0" layoutY="252.0" mnemonicParsing="false" onAction="#PaymentChoice" prefHeight="30.0" prefWidth="99.0" text="Credit Card" />
+      <RadioButton fx:id="Mst" layoutX="367.0" layoutY="252.0" mnemonicParsing="false" onAction="#PaymentChoice" prefHeight="30.0" prefWidth="92.0" text="Master Card" />
+      <RadioButton fx:id="Visa" layoutX="655.0" layoutY="252.0" mnemonicParsing="false" onAction="#PaymentChoice" prefHeight="30.0" prefWidth="74.0" text="Visa Card" />
+      <RadioButton fx:id="Dbt" layoutX="476.0" layoutY="252.0" mnemonicParsing="false" onAction="#PaymentChoice" prefHeight="30.0" prefWidth="82.0" text="Debit Card" />
+      <RadioButton fx:id="Cash" layoutX="581.0" layoutY="252.0" mnemonicParsing="false" onAction="#PaymentChoice" prefHeight="30.0" prefWidth="54.0" text="Cash" />
+      <Label fx:id="label" alignment="CENTER" layoutY="106.0" prefHeight="55.0" prefWidth="910.0" text="How do you wish to pay">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

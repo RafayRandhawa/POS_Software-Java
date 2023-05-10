@@ -267,6 +267,44 @@ public class Database {
         }
 
     }
+    public static void addNewCashier(String CashierName,String Join,String Start,String End, int hrsWorked,String password1){
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cashierdetails (CashierName,JoiningDate,ShiftStartTime,ShiftEndTime,TotNoOfHoursWorked) VALUES (?,?,?,?,?)");
+            stmt.setString(1,CashierName);
+            stmt.setString(2,Join);
+            stmt.setString(3,Start);
+            stmt.setString(4,End);
+            stmt.setInt(5,hrsWorked);
+
+            int rowsInserted = stmt.executeUpdate();
+
+            int CashierCode=0;
+            Statement stmt2 = conn.createStatement();
+            ResultSet rs = stmt2.executeQuery("SELECT * FROM cashierdetails ORDER BY CashierCode DESC LIMIT 1");
+            while(rs.next()){
+                CashierCode = rs.getInt("CashierCode");
+            }
+
+            stmt = conn.prepareStatement("INSERT INTO cashierlogininfo (CashierCode,CashierName,CashierPassword) VALUES (?,?,?)");
+            stmt.setInt(1,CashierCode);
+            stmt.setString(2,CashierName);
+            stmt.setString(3,password1);
+
+            rowsInserted += stmt.executeUpdate();
+            stmt.close();
+            stmt2.close();
+            conn.close();
+            if(rowsInserted==0){
+                System.out.println("Error writing in database");
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+
+    }
     public static void removeCashier(int CashierCode){
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -333,6 +371,54 @@ public class Database {
                     break;
 
             }
+            pstmt.close();
+            conn.close();
+
+        }
+        catch (SQLException e){
+            System.out.println("Error Connecting to Database: "+e.getMessage());
+        }
+    }
+    public static void updateCashierInfo(String CashierCode,String CashierName,String Shift){
+        try {
+            Connection conn = DriverManager.getConnection(url, username, password);
+            conn.setAutoCommit(true);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM cashierlogininfo");
+            int Code = Integer.parseInt(CashierCode);
+
+
+            PreparedStatement pstmt = null;
+            PreparedStatement pstmt1 = null;
+
+
+            pstmt = conn.prepareStatement("UPDATE cashierdetails \nSET CashierName = ?\nWHERE CashierCode = ?");
+            pstmt1 = conn.prepareStatement("UPDATE cashierlogininfo \n SET CashierName = ? \nWHERE CashierCode = ?");
+            pstmt.setString(1, CashierName);
+
+            pstmt.setInt(2,Code);
+
+            pstmt1.setString(1, CashierName);
+
+            pstmt1.setInt(2,Code);
+            pstmt.executeUpdate();
+            pstmt1.executeUpdate();
+
+
+            PreparedStatement pstmt2 = null;
+            if(Shift.contentEquals("Morning")|| Shift.contentEquals("morning")){
+                pstmt2 = conn.prepareStatement("UPDATE cashierdetails\n SET ShiftStartTime = '08:00:00',ShiftEndTime = '16:00:00' \nWHERE CashierCode = ?");
+                pstmt2.setInt(1,Code);
+                pstmt2.executeUpdate();
+            }
+            else if (Shift.contentEquals("Evening")|| Shift.contentEquals("evening")) {
+                pstmt2 = conn.prepareStatement("UPDATE cashierdetails \nSET ShiftStartTime = '16:00:00',ShiftEndTime = '00:00:00' \nWHERE CashierCode = ?");
+                pstmt2.setInt(1,Code);
+                pstmt2.executeUpdate();
+            }
+
+
+
             pstmt.close();
             conn.close();
 

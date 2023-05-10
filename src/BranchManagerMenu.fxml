@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="562.0" prefWidth="910.0" style="-fx-background-color: #bbe1ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BranchManagerMenu">
+   <children>
+      <Label alignment="CENTER" layoutX="383.0" layoutY="77.0" prefHeight="32.0" prefWidth="60.0" text="Hello!">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="logout" layoutX="730.0" layoutY="38.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="125.0" style="-fx-background-color: red;" text="Logout" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" layoutX="3.0" layoutY="126.0" prefHeight="32.0" prefWidth="910.0" text="Welcome to the Stock Manager Menu">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="printStockManagerName" alignment="CENTER" layoutX="444.0" layoutY="77.0" prefHeight="32.0" prefWidth="60.0">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <MenuButton fx:id="manageCashiers" alignment="CENTER" contentDisplay="CENTER" layoutX="251.0" layoutY="237.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Cashiers" textFill="WHITE">
+        <items>
+            <Menu mnemonicParsing="false" onAction="#searchCashierCode" text="View &amp; Search Cashiers" />
+          <MenuItem mnemonicParsing="false" onAction="#registerCashier" text="Register a new Cashier" />
+            <MenuItem mnemonicParsing="false" onAction="#updateCashierInfo" text="Update information of an existing cashier" />
+            <MenuItem mnemonicParsing="false" onAction="#removeCashier" text="Remove a cashier" />
+        </items>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </MenuButton>
+      <MenuButton fx:id="manageSales" alignment="CENTER" layoutX="511.0" layoutY="237.0" mnemonicParsing="false" onAction="#manageSales" prefHeight="88.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Sales" textFill="WHITE">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+         <font>
+            <Font size="16.0" />
+         </font>
+      </MenuButton>
+      <MenuButton alignment="CENTER" layoutX="402.0" layoutY="374.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Delivery Orders" textFill="WHITE">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Action 1" />
+            <MenuItem mnemonicParsing="false" text="Action 2" />
+         </items>
+         <font>
+            <Font size="15.0" />
+         </font>
+      </MenuButton>
+   </children>
+</AnchorPane>

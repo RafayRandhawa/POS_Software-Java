@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="562.0" prefWidth="910.0" style="-fx-background-color: #bbe1ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PaymentScreenController">
+   <children>
+      <Label alignment="CENTER" layoutX="-1.0" layoutY="24.0" prefHeight="18.0" prefWidth="910.0" text="----Receipt----">
+         <font>
+            <Font size="42.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="144.0" prefHeight="26.0" prefWidth="144.0" text="SalesID:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="181.0" prefHeight="26.0" prefWidth="144.0" text="Date:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="218.0" prefHeight="26.0" prefWidth="144.0" text="Cashier:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="254.0" prefHeight="26.0" prefWidth="144.0" text="Shift:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="SalesID" alignment="CENTER" layoutX="148.0" layoutY="144.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="Date" alignment="CENTER" layoutX="148.0" layoutY="181.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="Cashier" alignment="CENTER" layoutX="148.0" layoutY="218.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="Shift" alignment="CENTER" layoutX="148.0" layoutY="254.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TableView fx:id="CartTable" layoutX="432.0" layoutY="102.0" prefHeight="430.0" prefWidth="464.0">
+         <columns>
+            <TableColumn fx:id="ItemNumber" prefWidth="110.0" text="Item#" />
+            <TableColumn fx:id="TableItemName" prefWidth="148.0" text="Item Name" />
+            <TableColumn fx:id="TableQuantity" prefWidth="108.79998779296875" text="Quantity" />
+            <TableColumn fx:id="TablePrice" prefWidth="110.4000244140625" text="Price" />
+         </columns>
+      </TableView>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="290.0" prefHeight="26.0" prefWidth="144.0" text="Final Amount">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="FinalAmount" alignment="CENTER" layoutX="148.0" layoutY="290.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="AmountReceived" alignment="CENTER" layoutX="148.0" layoutY="330.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="330.0" prefHeight="26.0" prefWidth="144.0" text="Amount Recieved">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="371.0" prefHeight="26.0" prefWidth="144.0" text="Cash Returned">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="CashReturned" alignment="CENTER" layoutX="148.0" layoutY="371.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="4.0" layoutY="415.0" prefHeight="26.0" prefWidth="144.0" text="Mode of Payment">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="ModeOfPayment" alignment="CENTER" layoutX="148.0" layoutY="415.0" prefHeight="26.0" prefWidth="282.0" text=" ">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
