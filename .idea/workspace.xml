@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib_gui.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_j_8_0_33.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx-swt.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.base.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.controls.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.fxml.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.graphics.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.media.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.swing.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.web.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/BranchManagerMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CartController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CashierController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CashierSelection.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/HomeDeliveryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Home_Delivery.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Item.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/LoginManager.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PaymentScreen.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PaymentScreen2.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PaymentScreenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RegisterCashier.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RegisterCashier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RemoveCashier.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RemoveCashier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RetailStore.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SearchCashierCode.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SearchCashierCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StockManagerMenu.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/StockManagerMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UpdateCashierInfo.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UpdateCashierInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/POS_Software.iml" beforeDir="false" afterPath="$PROJECT_DIR$/POS_Software.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Read Me.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Read Me.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manager.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2YTCevrP5kFF6MLcNcGpirDhtso" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "openjdk-20",
+    "last_opened_file_path": "D:/Java/DS lab/DS_Project",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hp Zbook\Desktop\POS_Software" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="POS_Software" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;C:\Users\hp Zbook\Desktop\javafx-sdk-21.0.1\lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="" />
+      <created>1700540281036</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700540281036</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
