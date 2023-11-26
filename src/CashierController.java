@@ -22,4 +22,10 @@ public class CashierController {
         Main.stg.show();
     }
 
+    public void logout(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Main.stg.setScene(scene);
+        Main.stg.show();
+    }
 }

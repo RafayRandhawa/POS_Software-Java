@@ -99,4 +99,11 @@ public class PaymentScreenController implements Initializable {
             CartTable.setItems(CartController.itemList);
         }
     }
+
+    public void backToCart(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RetailStore.fxml"));
+        Scene scene =new Scene(loader.load());
+        Main.stg.setScene(scene);
+        Main.stg.show();
+    }
 }

@@ -11,6 +11,7 @@ import java.io.IOException;
 
 public class BranchManagerMenu {
 
+    public Button logout;
     Stage stage;
 
     public void searchCashierCode(ActionEvent e) throws IOException {
@@ -28,10 +29,6 @@ public class BranchManagerMenu {
     public void removeCashier(ActionEvent e) throws IOException {
         changeScene(e,"RemoveCashier.fxml");
     }
-    public void manageDeliveryOrders(ActionEvent e) throws IOException {
-        changeScene(e,"ManageDeliveryOrders.fxml");
-    }
-
 
     public void manageSales(ActionEvent e) throws IOException {
         changeScene(e,"ManageSales.fxml");
@@ -45,5 +42,13 @@ public class BranchManagerMenu {
         Scene scene = new Scene(fxmlLoader.load());
         Main.stg.setScene(scene);
         Main.stg.show();
+    }
+
+    public void OrderManagement(ActionEvent actionEvent) throws IOException {
+        changeScene(actionEvent,"OrderManagement.fxml");
+    }
+
+    public void CustomerManagement(ActionEvent actionEvent) throws IOException {
+        changeScene(actionEvent,"CustomerManagement.fxml");
     }
 }

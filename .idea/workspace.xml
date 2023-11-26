@@ -4,52 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib_gui.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_j_8_0_33.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx-swt.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.base.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.controls.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.fxml.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.graphics.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.media.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.swing.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib_javaFX/javafx.web.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/BranchManagerMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CartController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CashierController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CashierSelection.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HomeDeliveryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Home_Delivery.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Item.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/LoginManager.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PaymentScreen.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PaymentScreen2.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PaymentScreenController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RegisterCashier.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RegisterCashier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RemoveCashier.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RemoveCashier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/RetailStore.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SearchCashierCode.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SearchCashierCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StockManagerMenu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/StockManagerMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UpdateCashierInfo.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UpdateCashierInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/POS_Software.iml" beforeDir="false" afterPath="$PROJECT_DIR$/POS_Software.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Read Me.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Read Me.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cart.java" afterDir="false" />
+    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai">
+      <change afterPath="$PROJECT_DIR$/src/AddToInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/AddtoInventory.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Customer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CustomerManagement.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CustomerManagement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/InventoryManagement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OrderManagement.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/OrderManagement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RemoveFromInventory.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/RemoveFromInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SearchInventory.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BranchManagerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchManagerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashierController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashierController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashierSelection.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashierSelection.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PaymentScreen2.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/PaymentScreen2.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PaymentScreenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PaymentScreenController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SearchCashierCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchCashierCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StockManagerMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/StockManagerMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/StockManagerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/StockManagerMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +38,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="DESKTOP-3HSAGII\Rafay &lt;mrafay280@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -116,9 +100,29 @@
       <option name="presentableId" value="Default" />
       <updated>1700540281036</updated>
     </task>
+    <task id="LOCAL-00001" summary="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai">
+      <option name="closed" value="true" />
+      <created>1700998199708</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1700998199708</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai">
+      <option name="closed" value="true" />
+      <created>1700998239828</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700998239828</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Final" />
+    <MESSAGE value="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai" />
+    <option name="LAST_COMMIT_MESSAGE" value="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai" />
   </component>
 </project>

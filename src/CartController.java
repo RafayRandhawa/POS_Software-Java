@@ -28,15 +28,15 @@ public class CartController implements Initializable {
     @FXML
     TableView<Item> CartTable;
     @FXML
-    private TableColumn TableItemName;
+    private TableColumn<Item, String> TableItemName;
 
     @FXML
-    private TableColumn TablePrice;
+    private TableColumn<Item, Double> TablePrice;
 
     @FXML
-    private TableColumn TableQuantity;
+    private TableColumn<Item, Integer> TableQuantity;
     @FXML
-    private TableColumn ItemNumber;
+    private TableColumn<Item, Integer> ItemNumber;
 
     @FXML
     Label total;
@@ -70,6 +70,8 @@ public class CartController implements Initializable {
         discount.setText(String.format("%.2f",new BigDecimal(discounted_amount)));
         System.out.println(Database.get_itemDetails(ItemName.getText(),Integer.parseInt(Quantity.getText())).getItemNumber());
         itemList.add(itemtemp);
+        ItemName.clear();
+        Quantity.clear();
     }
     public void ProceedToPay(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PaymentScreen.fxml"));
@@ -99,6 +101,7 @@ public class CartController implements Initializable {
         }
 
         CartTable.setItems(itemList);
+        RemoveIndex.clear();
     }
 
     @Override
@@ -108,9 +111,9 @@ public class CartController implements Initializable {
         ArrayList<Item> ItemARRAYLIST = Cart.getInventoryList();
         itemList = FXCollections.observableArrayList(ItemARRAYLIST);
         ItemNumber.setCellValueFactory(new PropertyValueFactory<Item, Integer>("itemNumber"));
-        TableItemName.setCellValueFactory(new PropertyValueFactory<Item, Integer>("itemName"));
+        TableItemName.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
         TableQuantity.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
-        TablePrice.setCellValueFactory(new PropertyValueFactory<Item, Integer>("price"));
+        TablePrice.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
         CartTable.setItems(itemList);
     }
 
