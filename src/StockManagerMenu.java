@@ -43,4 +43,32 @@ public class StockManagerMenu {
         Main.stg.setScene(scene);
         Main.stg.show();
     }
+
+    public void StockMenu(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ViewStockLevels.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Main.stg.setScene(scene);
+        Main.stg.show();
+    }
+
+    public void ExpiredItems(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ExpiredItems.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Main.stg.setScene(scene);
+        Main.stg.show();
+    }
+
+    public void ViewSupplier(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SearchSupplier.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Main.stg.setScene(scene);
+        Main.stg.show();
+    }
+
+    public void SearchhForItems(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SearchForItemsBySupplier.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Main.stg.setScene(scene);
+        Main.stg.show();
+    }
 }

@@ -41,8 +41,8 @@
       </MenuButton>
       <MenuButton fx:id="manageSuppliers" alignment="CENTER" layoutX="340.0" layoutY="331.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Suppliers" textFill="WHITE">
          <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
+            <MenuItem mnemonicParsing="false" onAction="#ViewSupplier" text="View &amp; Search Suppliers" />
+            <MenuItem mnemonicParsing="false" onAction="#SearchhForItems" text="Search For Items by a Supplier" />
          </items>
          <font>
             <Font size="19.0" />
@@ -50,8 +50,8 @@
       </MenuButton>
       <MenuButton fx:id="manageStocks" alignment="CENTER" layoutX="473.0" layoutY="211.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Stocks" textFill="WHITE">
          <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
+            <MenuItem mnemonicParsing="false" onAction="#StockMenu" text="View Stock Levels" />
+            <MenuItem mnemonicParsing="false" onAction="#ExpiredItems" text="Check Expired Items" />
          </items>
          <font>
             <Font size="19.0" />
