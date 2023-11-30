@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="Mera Kaam Khatam">
-      <change afterPath="$PROJECT_DIR$/src/DisplayCashiers.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DisplayCashiersController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ManageSales.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ManageSalesController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ProdPerformance.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SalesAnalytics.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SalesAnalytics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SalesRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BranchManagerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchManagerMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CartController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HomeDeliveryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HomeDeliveryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home_Delivery.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home_Delivery.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inventory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManagerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PurchaseBilling.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RemoveFromInventory.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoveFromInventory.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SearchCashierCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchCashierCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SearchForItemsBySupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchForItemsBySupplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SearchSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchSupplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sales.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sales.java" afterDir="false" />
-    </list>
+    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="Final Version" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -137,7 +107,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701063548724</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Final Version">
+      <option name="closed" value="true" />
+      <created>1701357970660</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701357970660</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -146,6 +124,7 @@
     <MESSAGE value="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai" />
     <MESSAGE value="Moving on to Stock Management" />
     <MESSAGE value="Mera Kaam Khatam" />
-    <option name="LAST_COMMIT_MESSAGE" value="Mera Kaam Khatam" />
+    <MESSAGE value="Final Version" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Version" />
   </component>
 </project>
