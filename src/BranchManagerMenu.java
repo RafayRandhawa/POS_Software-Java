@@ -1,18 +1,38 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class BranchManagerMenu {
-
+    @FXML
     public Button logout;
+    @FXML
     Stage stage;
+    @FXML
+    public Label printBranchManagerName;
+//    @Override
+//    public void initialize(URL url, ResourceBundle resourceBundle){
+//        ManagerController m = new ManagerController();
+//        String name = m.getManagerUserName();
+//        printBranchManagerName.setText(name);
+//    }
+    public void displayName(String username){
+        printBranchManagerName.setText(username);
+        System.out.println("something");
+    }
+
+
 
     public void searchCashierCode(ActionEvent e) throws IOException {
         changeScene(e,"SearchCashierCode.fxml");
@@ -30,9 +50,9 @@ public class BranchManagerMenu {
         changeScene(e,"RemoveCashier.fxml");
     }
 
-    public void manageSales(ActionEvent e) throws IOException {
-        changeScene(e,"ManageSales.fxml");
-    }
+//    public void manageSales(ActionEvent e) throws IOException {
+//        changeScene(e,"ManageSales.fxml");
+//    }
 
     public void logout(ActionEvent e) throws IOException {
         changeScene(e,"Home.fxml");
@@ -50,5 +70,17 @@ public class BranchManagerMenu {
 
     public void CustomerManagement(ActionEvent actionEvent) throws IOException {
         changeScene(actionEvent,"CustomerManagement.fxml");
+    }
+
+    public void salesRecord(ActionEvent e) throws IOException {
+        changeScene(e,"ManageSales.fxml");
+    }
+
+    public void salesAnalytics(ActionEvent e) throws IOException {
+        changeScene(e,"SalesAnalytics.fxml");
+    }
+
+    public void inventoryPerformance(ActionEvent actionEvent) {
+
     }
 }

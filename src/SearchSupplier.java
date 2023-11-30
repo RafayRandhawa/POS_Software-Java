@@ -102,7 +102,7 @@ public class SearchSupplier implements Initializable {
         Email.setCellValueFactory(new PropertyValueFactory<Supplier,String>("Email"));
         Website.setCellValueFactory(new PropertyValueFactory<Supplier,String>("Website"));
         ContactTitle.setCellValueFactory(new PropertyValueFactory<Supplier,String>("ContactTitle"));
-        ContactNumber.setCellValueFactory(new PropertyValueFactory<Supplier,String>("ContactNumber"));
+        ContactNumber.setCellValueFactory(new PropertyValueFactory<Supplier,String>("Phone"));
         City.setCellValueFactory(new PropertyValueFactory<Supplier,String>("City"));
         Suppliers = Database.supplierSearch();
         supplier = FXCollections.observableArrayList(Suppliers);

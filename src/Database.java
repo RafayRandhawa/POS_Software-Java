@@ -227,46 +227,7 @@ public class Database {
         }
         return cashierArrayList;
     }
-    public static void addNewCashier(String CashierName,String Join,String Start,String End, int hrsWorked){
-        try {
-            Connection conn = DriverManager.getConnection(url, username, password);
 
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO cashierdetails (CashierName,JoiningDate,ShiftStartTime,ShiftEndTime,TotNoOfHoursWorked) VALUES (?,?,?,?,?)");
-            stmt.setString(1,CashierName);
-            stmt.setString(2,Join);
-            stmt.setString(3,Start);
-            stmt.setString(4,End);
-            stmt.setInt(5,hrsWorked);
-
-            int rowsInserted = stmt.executeUpdate();
-            System.out.println("Enter Password for new cashier: ");
-            String password = new Scanner(System.in).nextLine();
-
-            int CashierCode=0;
-            Statement stmt2 = conn.createStatement();
-            ResultSet rs = stmt2.executeQuery("SELECT * FROM cashierdetails ORDER BY CashierCode DESC LIMIT 1");
-            while(rs.next()){
-                CashierCode = rs.getInt("CashierCode");
-            }
-
-            stmt = conn.prepareStatement("INSERT INTO cashierlogininfo (CashierCode,CashierName,CashierPassword) VALUES (?,?,?)");
-            stmt.setInt(1,CashierCode);
-            stmt.setString(2,CashierName);
-            stmt.setString(3,password);
-
-            rowsInserted += stmt.executeUpdate();
-            stmt.close();
-            stmt2.close();
-            conn.close();
-            if(rowsInserted==0){
-                System.out.println("Error writing in database");
-            }
-        }
-        catch (SQLException e) {
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-
-    }
     public static void addNewCashier(String CashierName,String Join,String Start,String End, int hrsWorked,String password1){
         try {
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -327,56 +288,6 @@ public class Database {
         }
         catch (SQLException e) {
             System.out.println("Error connecting to database: " + e.getMessage());
-        }
-    }
-    public static void updateCashierInfo(){
-        try {
-            Connection conn = DriverManager.getConnection(url, username, password);
-            conn.setAutoCommit(true);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM cashierlogininfo");
-
-            while(rs.next()){
-                System.out.println("\nCashier Code: "+rs.getInt("CashierCode")+"\tCashier Name: "+rs.getString("CashierName"));
-            }
-            System.out.println("Enter Cashier Code of of the cashier you want to update");
-            int Code = new Scanner(System.in).nextInt();
-            System.out.println("What would you like to update: \n1: Cashier Name\n2: Shift\n");
-            int option = new Scanner(System.in).nextInt();
-            PreparedStatement pstmt = null;
-            switch(option){
-                case 1:
-                    pstmt = conn.prepareStatement("UPDATE cashierdetails, cashierlogininfo \nSET cashierdetails.CashierName = ?, cashierlogininfo.CashierName = ? \nWHERE cashierdetails.CashierCode = ?");
-                    System.out.println("Enter new Cashier Name: ");
-                    String name = new Scanner(System.in).nextLine();
-                    pstmt.setString(1,name);
-                    pstmt.setString(2,name);
-                    pstmt.setInt(3,Code);
-                    pstmt.executeUpdate();
-                    break;
-                case 2:
-
-                    System.out.println("Enter Shift Time (Morning/Evening): ");
-                    String shift = new Scanner(System.in).nextLine();
-                    if(shift.contentEquals("Morning")||shift.contentEquals("morning")){
-                        pstmt = conn.prepareStatement("UPDATE cashierdetails\n SET ShiftStartTime = 08:00:00,ShiftEndTime = 16:00:00 \nWHERE CashierCode = ?");
-                        pstmt.setInt(1,Code);
-                        pstmt.executeUpdate();
-                    }
-                    else if (shift.contentEquals("Evening")||shift.contentEquals("evening")) {
-                        pstmt = conn.prepareStatement("UPDATE cashierdetails \nSET ShiftStartTime = 16:00:00,ShiftEndTime = 00:00:00 \nWHERE CashierCode = ?");
-                        pstmt.setInt(1,Code);
-                        pstmt.executeUpdate();
-                    }
-                    break;
-
-            }
-            pstmt.close();
-            conn.close();
-
-        }
-        catch (SQLException e){
-            System.out.println("Error Connecting to Database: "+e.getMessage());
         }
     }
     public static void updateCashierInfo(String CashierCode,String CashierName,String Shift){
@@ -474,42 +385,21 @@ public class Database {
             stmt.close();
             conn.close();
 
-
         }
         catch (SQLException e) {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
         return new StockManager();
     }
-    public static void get_SalesRecord(){
-        try{
-            Connection conn = DriverManager.getConnection(url,username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("Select * FROM cashiersales ORDER BY SaleDate ASC");
-
-            while(rs.next()){
-                int SalesID = rs.getInt("SalesID");
-                int CashierCode= rs.getInt("CashierCode");
-                String SaleDate= rs.getString("SaleDate");
-                String SaleTime= rs.getString("SaleTIme");
-                double Amount= rs.getDouble("Amount");
-                int NoOfItems= rs.getInt("NoOfItems");
-                String PaymentMethod= rs.getString("PaymentMethod");
-                System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-
-
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-    }
-    public static boolean get_SalesRecord(int cashier_code){
-        boolean found=false;
+    public static ArrayList<SalesRecord> getSalesRecord(int cashier_code){
+        int SalesID = 0;
+        int CashierCode = 0;
+        String SaleDate = "";
+        String SaleTime = "";
+        Double Amount = 0.0;
+        int NoOfItems = 0;
+        String PaymentMethod = "";
+        ArrayList<SalesRecord> salesRecords = new ArrayList<>();
         try{
             Connection conn = DriverManager.getConnection(url,username,password);
 
@@ -517,30 +407,215 @@ public class Database {
             ResultSet rs = stmt.executeQuery("Select * FROM cashiersales");
 
             while(rs.next()){
-                int SalesID = rs.getInt("SalesID");
-                int CashierCode= rs.getInt("CashierCode");
-                String SaleDate= rs.getString("SaleDate");
-                String SaleTime= rs.getString("SaleTIme");
-                double Amount= rs.getDouble("Amount");
-                int NoOfItems= rs.getInt("NoOfItems");
-                String PaymentMethod= rs.getString("PaymentMethod");
+                SalesID = rs.getInt("SalesID");
+                CashierCode= rs.getInt("CashierCode");
+                SaleDate= rs.getString("SaleDate");
+                SaleTime= rs.getString("SaleTIme");
+                Amount= rs.getDouble("Amount");
+                NoOfItems= rs.getInt("NoOfItems");
+                PaymentMethod= rs.getString("PaymentMethod");
                 if(CashierCode==cashier_code){
-                    found=true;
+
                     System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
+                    salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
                 }
             }
             rs.close();
             stmt.close();
             conn.close();
-
-
         }
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
-        return found;
+        return salesRecords;
     }
-    public static void get_SalesRecord(int salesID,int Parameter_Restriction){
+    public static ArrayList<SalesRecord> getSalesRecord(){
+        int SalesID = 0;
+        int CashierCode = 0;
+        String SaleDate = "";
+        String SaleTime = "";
+        Double Amount = 0.0;
+        int NoOfItems = 0;
+        String PaymentMethod = "";
+        ArrayList<SalesRecord> salesRecords = new ArrayList<>();
+        try{
+            Connection conn = DriverManager.getConnection(url,username,password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("Select * FROM cashiersales");
+
+            while(rs.next()){
+                SalesID = rs.getInt("SalesID");
+                CashierCode= rs.getInt("CashierCode");
+                SaleDate= rs.getString("SaleDate");
+                SaleTime= rs.getString("SaleTIme");
+                Amount= rs.getDouble("Amount");
+                NoOfItems= rs.getInt("NoOfItems");
+                PaymentMethod= rs.getString("PaymentMethod");
+
+                    //System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
+                    salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e){
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+        return salesRecords;
+    }
+
+    public static  ArrayList<Order> getOrderDetail() {
+        int ORDERID = 0;
+        int CUSTOMERID = 0;
+        String ADDRESS = "";
+        String ORDERDATE = "";
+        String ITEMSORDERED = "";
+        int NUMBEROFITEMS = 0;
+        String DELIVERYDATE = "";
+        String ORDERSTATUS = "";
+        double ORDERTOTAL = 0.0;
+        ArrayList<Order> Orders= new ArrayList<>();
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+            conn.setAutoCommit(true);
+            System.out.println("OrderID\t CustomerID\t\tOrder Date\t\t\tItems Ordered\t\tNumber Of Items\t\t\tDelivery Date\t\t\tAddress\t\t\t\t\t\tOrder Status\tOrder Total");
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
+            while (rs.next()) {
+
+                ORDERID = rs.getInt("orderID");
+                CUSTOMERID = rs.getInt("customerID");
+                ORDERDATE = rs.getString("orderDate");
+                ITEMSORDERED = rs.getString("itemsOrdered");
+                NUMBEROFITEMS = rs.getInt("numberOfItems");
+                DELIVERYDATE = rs.getString("deliveryDate");
+                ADDRESS = rs.getString("address");
+                ORDERSTATUS = rs.getString("orderStatus");
+                ORDERTOTAL = rs.getDouble("orderTotal");
+                System.out.printf("\n%d \t\t   %-10d  \t%-15s %-30s %-15d\t %-15s %-35s %-15s  %.2f", ORDERID, CUSTOMERID, ORDERDATE, ITEMSORDERED, NUMBEROFITEMS, DELIVERYDATE, ADDRESS, ORDERSTATUS, ORDERTOTAL);
+                Orders.add( new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
+            }
+            return Orders;
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database" + e.getMessage());
+        }
+        return Orders;
+    }
+    public static ArrayList<Order> getOrderDetail(int orderID) {
+        int ORDERID = 0;
+        int CUSTOMERID = 0;
+        String ADDRESS = "";
+        String ORDERDATE = "";
+        String ITEMSORDERED = "";
+        int NUMBEROFITEMS = 0;
+        String DELIVERYDATE = "";
+        String ORDERSTATUS = "";
+        double ORDERTOTAL = 0.0;
+        ArrayList<Order> Orders = new ArrayList<>();
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+            conn.setAutoCommit(true);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
+            while (rs.next()) {
+                if (rs.getInt("orderID") == (orderID)) {
+                    ORDERID = rs.getInt("orderID");
+                    CUSTOMERID = rs.getInt("customerID");
+                    ORDERDATE = rs.getString("orderDate");
+                    ITEMSORDERED = rs.getString("itemsOrdered");
+                    NUMBEROFITEMS = rs.getInt("numberOfItems");
+                    DELIVERYDATE = rs.getString("deliveryDate");
+                    ADDRESS = rs.getString("address");
+                    ORDERSTATUS = rs.getString("orderStatus");
+                    ORDERTOTAL = rs.getDouble("orderTotal");
+                    break;
+                }
+            }
+            System.out.println("\nOrder ID: " + ORDERID + "\nCustomer ID: " + CUSTOMERID + " \nOrder Date: " + ORDERDATE + " \nItems Ordered: " + ITEMSORDERED + "\nNumber of Items: " + NUMBEROFITEMS + "\nDelivery Date: " + DELIVERYDATE + "\nAddress: " + ADDRESS + "\nOrder Status: " + ORDERSTATUS + "\nOrder Total: " + ORDERTOTAL);
+            Orders.add(new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
+            return Orders;
+        } catch (SQLException e) {
+            System.out.println("error connecting to database" + e.getMessage());
+            return Orders;
+        }
+    }
+    public static ArrayList<Customer> getCustomerDetail(){
+        int CUSTOMERID = 0;
+        String CUSTOMERNAME = "";
+        String ADDRESS = "";
+        String PHNUMBER = "";
+        String EMAILADDRESS = "";
+        String PAYMENTMETHOD = "";
+        ArrayList<Customer> Customers = new ArrayList<>();
+
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+            conn.setAutoCommit(true);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
+            System.out.println("CustomerID\t Customer Name\t\t\t\t  Address\t\t\t\t\t  Phone Number\t\t\tEmail Address\t\t\t\t   Payment Method");
+            while (rs.next()) {
+                CUSTOMERID = rs.getInt("customerID");
+                CUSTOMERNAME = rs.getString("customerName");
+                ADDRESS = rs.getString("address");
+                PHNUMBER = rs.getString("phoneNumber");
+                EMAILADDRESS = rs.getString("emailAddress");
+                PAYMENTMETHOD = rs.getString("paymentMethod");
+                System.out.printf("\n%d \t\t %-20s\t%-35s %-15s %-30s\t\t %s",CUSTOMERID, CUSTOMERNAME, ADDRESS, PHNUMBER, EMAILADDRESS, PAYMENTMETHOD);
+                Customers.add(new Customer(CUSTOMERID,CUSTOMERNAME,ADDRESS,PHNUMBER,EMAILADDRESS,PAYMENTMETHOD));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("error connecting to database" + e.getMessage());
+        }
+        return Customers;
+    }
+    public static ArrayList<Customer> getCustomerDetail(int customerID){
+        int CUSTOMERID = 0;
+        String CUSTOMERNAME = "";
+        String ADDRESS = "";
+        String PHNUMBER = "";
+        String EMAILADDRESS = "";
+        String PAYMENTMETHOD = "";
+        ArrayList<Customer> Customers = new ArrayList<>();
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
+            conn.setAutoCommit(true);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
+            while (rs.next()) {
+                if (rs.getInt("customerID") == (customerID)) {
+                    CUSTOMERID = rs.getInt("customerID");
+                    CUSTOMERNAME = rs.getString("customerName");
+                    ADDRESS = rs.getString("address");
+                    PHNUMBER = rs.getString("phoneNumber");
+                    EMAILADDRESS = rs.getString("emailAddress");
+                    PAYMENTMETHOD = rs.getString("paymentMethod");
+                    break;
+                }
+            }
+            System.out.println("\nCustomer ID: " + CUSTOMERID + "\nCustomer Name: " + CUSTOMERNAME + " \nAddress: " + ADDRESS + " \nPhone Number: " + PHNUMBER + "\nEmail Address: " + EMAILADDRESS + "\nPayment Method: " + PAYMENTMETHOD);
+            Customers.add(new Customer(CUSTOMERID,CUSTOMERNAME,ADDRESS,PHNUMBER,EMAILADDRESS,PAYMENTMETHOD));
+        } catch (SQLException e) {
+            System.out.println("error connecting to database" + e.getMessage());
+        }return Customers;
+    }
+    public static ArrayList<SalesRecord> getSalesRecordID(int salesID){
+        int SalesID = 0;
+        int CashierCode = 0;
+        String SaleDate = "";
+        String SaleTime = "";
+        Double Amount = 0.0;
+        int NoOfItems = 0;
+        String PaymentMethod = "";
+        ArrayList<SalesRecord> salesRecords = new ArrayList<>();
         //Second int parameter has no functional value
         //Parameter_Restriction was included to allow for function overloading
         try{
@@ -550,15 +625,16 @@ public class Database {
             ResultSet rs = stmt.executeQuery("Select * FROM cashiersales");
 
             while(rs.next()){
-                int SalesID = rs.getInt("SalesID");
-                int CashierCode= rs.getInt("CashierCode");
-                String SaleDate= rs.getString("SaleDate");
-                String SaleTime= rs.getString("SaleTIme");
-                double Amount= rs.getDouble("Amount");
-                int NoOfItems= rs.getInt("NoOfItems");
-                String PaymentMethod= rs.getString("PaymentMethod");
+                SalesID = rs.getInt("SalesID");
+                CashierCode= rs.getInt("CashierCode");
+                SaleDate= rs.getString("SaleDate");
+                SaleTime= rs.getString("SaleTIme");
+                Amount= rs.getDouble("Amount");
+                NoOfItems= rs.getInt("NoOfItems");
+                PaymentMethod= rs.getString("PaymentMethod");
                 if(salesID==SalesID){
-                    System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
+                    //System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
+                    salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
                 }
             }
             rs.close();
@@ -570,6 +646,7 @@ public class Database {
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
+        return salesRecords;
     }
     public static void add_SalesRecord(int CashierCode, String SaleDate, String SaleTime, double Amount, int NoOfItems, String PaymentMethod){
         try{
@@ -614,12 +691,17 @@ public class Database {
                      ITEMID=rs.getInt("itemID");
                      ITEMNAME =rs.getString("ItemName");
                      PRICE=rs.getDouble("Price");
-                     QUANTITY=quantity;
+                     QUANTITY=rs.getInt("Quantity");
                      EXPIRYDATE=rs.getString("ExpiryDate");
                 }
             }
 
-
+            if (quantity>QUANTITY){
+                return new Item(ITEMID,ITEMNAME,PRICE,-1,EXPIRYDATE);
+            }
+            else {
+                QUANTITY = quantity;
+            }
             rs.close();
             stmt.close();
             conn.close();
@@ -702,237 +784,6 @@ public class Database {
             System.out.println("Error connecting to database: " + e.getMessage());
         }
         //System.out.println("Check");
-
-    }
-    public static void viewInventory(){
-
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        String SUPP="";
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name");
-            while (rs.next()){
-                //System.out.println("ItemName: "+rs.getString("ItemName"));
-                    ITEMNAME =rs.getString("ItemName");
-                    ITEMID=rs.getInt("itemID");
-                    PRICE=rs.getDouble("Price");
-                    QUANTITY=rs.getInt("Quantity");
-                    EXPIRYDATE=rs.getString("ExpiryDate");
-                    SUPP= rs.getString("SupplierName");
-
-                System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP);
-                System.out.println();
-            }
-
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-        //System.out.println("Check");;
-    }
-    public static void findItem(int ItemID){
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        String SUPP="";
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name");
-            while (rs.next()){
-                if(ItemID==rs.getInt("itemID")){
-                    //System.out.println("ItemName: "+rs.getString("ItemName"));
-                    ITEMNAME =rs.getString("ItemName");
-                    ITEMID=rs.getInt("itemID");
-                    PRICE=rs.getDouble("Price");
-                    QUANTITY=rs.getInt("Quantity");
-                    EXPIRYDATE=rs.getString("ExpiryDate");
-                    SUPP= rs.getString("SupplierName");
-
-                    System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP);
-                    System.out.println();
-                }
-            }
-
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-        //System.out.println("Check");;
-    }
-    public static ArrayList<Item> getitemDetails(){
-
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        String SUPP="";
-        ArrayList<Item> Items = new ArrayList<>() ;
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name");
-            while (rs.next()){
-                //System.out.println("ItemName: "+rs.getString("ItemName"));
-                ITEMNAME =rs.getString("ItemName");
-                ITEMID=rs.getInt("itemID");
-                PRICE=rs.getDouble("Price");
-                QUANTITY=rs.getInt("Quantity");
-                EXPIRYDATE=rs.getString("ExpiryDate");
-                SUPP= rs.getString("SupplierName");
-                Items.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP));
-                System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP);
-                System.out.println();
-            }
-
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-        //System.out.println("Check");;
-        return Items;
-    }
-    public static ArrayList<Item> getitemDetails(int ItemID){
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        String SUPP="";
-        ArrayList<Item> Items = new ArrayList<>();
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name");
-            while (rs.next()){
-                if(ItemID==rs.getInt("itemID")){
-                    //System.out.println("ItemName: "+rs.getString("ItemName"));
-                    ITEMNAME =rs.getString("ItemName");
-                    ITEMID=rs.getInt("itemID");
-                    PRICE=rs.getDouble("Price");
-                    QUANTITY=rs.getInt("Quantity");
-                    EXPIRYDATE=rs.getString("ExpiryDate");
-                    SUPP= rs.getString("SupplierName");
-                    Items.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP));
-                    System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP);
-                    System.out.println();
-                }
-            }
-
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-        return Items;
-        //System.out.println("Check");;
-    }
-    public static ArrayList<Item> getitemDetails(String itemName){
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        String SUPP="";
-        ArrayList<Item> Items = new ArrayList<>();
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name");
-            while (rs.next()){
-                if(itemName.contentEquals(rs.getString("ItemName"))){
-
-                    ITEMNAME =rs.getString("ItemName");
-                    ITEMID=rs.getInt("itemID");
-                    PRICE=rs.getDouble("Price");
-                    QUANTITY=rs.getInt("Quantity");
-                    EXPIRYDATE=rs.getString("ExpiryDate");
-                    SUPP= rs.getString("SupplierName");
-                    Items.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP));
-                    System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP);
-                    System.out.println();
-                }
-            }
-
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
-        return Items;
-    }
-    public static void findItem(String itemName){
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        String SUPP="";
-        try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name");
-            while (rs.next()){
-                if(itemName.contentEquals(rs.getString("ItemName"))){
-
-                    ITEMNAME =rs.getString("ItemName");
-                    ITEMID=rs.getInt("itemID");
-                    PRICE=rs.getDouble("Price");
-                    QUANTITY=rs.getInt("Quantity");
-                    EXPIRYDATE=rs.getString("ExpiryDate");
-                    SUPP= rs.getString("SupplierName");
-
-                    System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP);
-                    System.out.println();
-                }
-            }
-
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        }
-        catch (SQLException e){
-            System.out.println("Error connecting to database: " + e.getMessage());
-        }
 
     }
     public static void updateStock(int itemID, int quantity){
@@ -1055,81 +906,6 @@ public class Database {
         }
         return stocks;
     }//used in CheckStockLevels() in class inventory
-    public static ArrayList<Stock> checkitemStock(){
-        int itemID = 0;
-        String iname = null;
-        int current=0;
-        int max=0;
-        int min=0;
-        ArrayList<Stock> Stocks = new ArrayList<>();
-
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM inventorylevels");
-
-            while (rs.next()){
-                    itemID = rs.getInt("itemID");
-                    iname = rs.getString("ItemName");
-                    current = rs.getInt("CurrentstockLevel");
-                    max = rs.getInt("MaxStockLevel");
-                    min = rs.getInt("MinStockLevel");
-                    Stocks.add(new Stock(itemID,max,min,current,iname));
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return Stocks;
-    }
-    public static ArrayList<Stock> checkitemStock(int ID){
-        int itemID = 0;
-        String iname = null;
-        int current=0;
-        int max=0;
-        int min=0;
-        ArrayList<Stock> Stocks = new ArrayList<>();
-
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventorylevels");
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()){
-                if (rs.getInt("itemID")==ID){
-                    iname = rs.getString("ItemName");
-                    current = rs.getInt("CurrentstockLevel");
-                    max = rs.getInt("MaxStockLevel");
-                    min = rs.getInt("MinStockLevel");
-                    Stocks.add(new Stock(ID,max,min,current,iname));
-                }
-            }
-            rs.close();
-            pstmt.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return Stocks;
-    }
     public static int[] printStock(String itemName){
         int current=0;
         int max=0;
@@ -1246,47 +1022,6 @@ public class Database {
             throw new RuntimeException(e);
         }
     }//used in searchBySupplier() inventory class
-    public static ArrayList<Item> searchSupplier(String suppName){
-        int ITEMID=0;
-        String ITEMNAME="";
-        double PRICE=0;
-        int QUANTITY=0;
-        String EXPIRYDATE="";
-        Connection conn = null;
-        ArrayList<Item> Suppliers = new ArrayList<>();
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventory.inventoryprods WHERE inventoryprods.SupplierName = ?");
-            pstmt.setString(1, suppName);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()){
-                if(rs.getString("SupplierName").contentEquals(suppName)) {
-                    ITEMNAME =rs.getString("ItemName");
-                    ITEMID=rs.getInt("itemID");
-                    PRICE=rs.getDouble("Price");
-                    QUANTITY=rs.getInt("Quantity");
-                    EXPIRYDATE=rs.getString("ExpiryDate");
-                }
-                Suppliers.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE));
-                System.out.println("--Item ID: " + ITEMID + " --Item Name: " + ITEMNAME + " --Price: " + PRICE + " --Quantity: " + QUANTITY + " --Expiry date: " + EXPIRYDATE);
-                System.out.println();
-            }
-
-            rs.close();
-            pstmt.close();
-            conn.close();
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return Suppliers;
-    }
     public static void removeItemInv(int ID){
         Connection conn = null;
         try {
@@ -1426,282 +1161,7 @@ public class Database {
             throw new RuntimeException(e);
         }
     }//used in searchSupplier() inventory class
-    public static ArrayList<Supplier> supplierSearch(String suppName){
-        int suppID=0;
-        String supplierName="";
-        String cname="";
-        String title="";
-        String add="";
-        String city="";
-        String region="";
-        String pcode="";
-        String country="";
-        String ph="";
-        String fax="";
-        String email="";
-        String web="";
-        ArrayList<Supplier> searchSupplier = new ArrayList<>();
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventory.supplierinfo WHERE supplierinfo.SupplierName=?");
-            pstmt.setString(1, suppName);
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()){
-                if(rs.getString("SupplierName").contentEquals(suppName)) {
-                    suppID = rs.getInt("SupplierID");
-                    supplierName = rs.getString("SupplierName");
-                    cname = rs.getString("ContactName");
-                    title = rs.getString("ContactTitle");
-                    add = rs.getString("Address");
-                    city = rs.getString("City");
-                    region = rs.getString("Region");
-                    pcode = rs.getString("PostalCode");
-                    country = rs.getString("Country");
-                    ph = rs.getString("Phone");
-                    fax = rs.getString("Fax");
-                    email = rs.getString("Email");
-                    web = rs.getString("Website");
-                }
-                searchSupplier.add(new Supplier(suppID,supplierName,cname,title,add,city,region,pcode,country,ph,fax,email,web));
-                //System.out.println("--Item ID: " + ITEMID + " --Item Name: " + ITEMNAME + " --Price: " + PRICE + " --Quantity: " + QUANTITY + " --Expiry date: " + EXPIRYDATE);
-            }
-
-            rs.close();
-            pstmt.close();
-            conn.close();
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return searchSupplier;
-    }
-    public static ArrayList<Supplier> supplierSearch(){
-        int suppID=0;
-        String supplierName="";
-        String cname="";
-        String title="";
-        String add="";
-        String city="";
-        String region="";
-        String pcode="";
-        String country="";
-        String ph="";
-        String fax="";
-        String email="";
-        String web="";
-        ArrayList<Supplier> searchSupplier = new ArrayList<>();
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("ID\tSupplier Name\tContact Name\t\t\t\tTitle\t\t\t\tAddress\t\t\t\t\tCity\t\t\tRegion\t\tPostal Code\t\tCountry\t\t\t\t\tPhone\t\t\t\t\t Fax\t\t\t\t\tEmail\t\t\t\t\tWebsite");
-        try {
-            Statement pstmt = conn.createStatement();
-            ResultSet rs = pstmt.executeQuery("SELECT * FROM inventory.supplierinfo");
-
-            while (rs.next()){
-
-                    suppID = rs.getInt("SupplierID");
-                    supplierName = rs.getString("SupplierName");
-                    cname = rs.getString("ContactName");
-                    title = rs.getString("ContactTitle");
-                    add = rs.getString("Address");
-                    city = rs.getString("City");
-                    region = rs.getString("Region");
-                    pcode = rs.getString("PostalCode");
-                    country = rs.getString("Country");
-                    ph = rs.getString("Phone");
-                    fax = rs.getString("Fax");
-                    email = rs.getString("Email");
-                    web = rs.getString("Website");
-
-                searchSupplier.add(new Supplier(suppID,supplierName,cname,title,add,city,region,pcode,country,ph,fax,email,web));
-                //System.out.println("--Item ID: " + ITEMID + " --Item Name: " + ITEMNAME + " --Price: " + PRICE + " --Quantity: " + QUANTITY + " --Expiry date: " + EXPIRYDATE);
-                System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s %-15s %-15s %-15s %-25s %-20s %-25s %-30s",suppID,supplierName,cname,title,add,city,region,pcode,country,ph,fax,email,web);
-                System.out.println();
-            }
-
-            rs.close();
-            pstmt.close();
-            conn.close();
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return searchSupplier;
-    }
-    public static void getDeliveryCustomerDetail(){
-        int CUSTOMERID = 0;
-        String CUSTOMERNAME = "";
-        String ADDRESS = "";
-        String PHNUMBER = "";
-        String EMAILADDRESS = "";
-        String PAYMENTMETHOD = "";
-
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
-            System.out.println("CustomerID\t Customer Name\t\t\t\t  Address\t\t\t\t\t  Phone Number\t\t\tEmail Address\t\t\t\t   Payment Method");
-            while (rs.next()) {
-                CUSTOMERID = rs.getInt("customerID");
-                CUSTOMERNAME = rs.getString("customerName");
-                ADDRESS = rs.getString("address");
-                PHNUMBER = rs.getString("phoneNumber");
-                EMAILADDRESS = rs.getString("emailAddress");
-                PAYMENTMETHOD = rs.getString("paymentMethod");
-                System.out.printf("\n%d \t\t %-20s\t%-35s %-15s %-30s\t\t %s",CUSTOMERID, CUSTOMERNAME, ADDRESS, PHNUMBER, EMAILADDRESS, PAYMENTMETHOD);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("error connecting to database" + e.getMessage());
-        }
-    }
-    public static void getDeliveryCustomerDetail(int customerID){
-        int CUSTOMERID = 0;
-        String CUSTOMERNAME = "";
-        String ADDRESS = "";
-        String PHNUMBER = "";
-        String EMAILADDRESS = "";
-        String PAYMENTMETHOD = "";
-
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
-            while (rs.next()) {
-                if (rs.getInt("customerID") == (customerID)) {
-                    CUSTOMERID = rs.getInt("customerID");
-                    CUSTOMERNAME = rs.getString("customerName");
-                    ADDRESS = rs.getString("address");
-                    PHNUMBER = rs.getString("phoneNumber");
-                    EMAILADDRESS = rs.getString("emailAddress");
-                    PAYMENTMETHOD = rs.getString("paymentMethod");
-                    break;
-                }
-            }
-            System.out.println("\nCustomer ID: " + CUSTOMERID + "\nCustomer Name: " + CUSTOMERNAME + " \nAddress: " + ADDRESS + " \nPhone Number: " + PHNUMBER + "\nEmail Address: " + EMAILADDRESS + "\nPayment Method: " + PAYMENTMETHOD);
-
-        } catch (SQLException e) {
-            System.out.println("error connecting to database" + e.getMessage());
-        }
-    }
-    public static ArrayList<Customer> getCustomerDetail(){
-        int CUSTOMERID = 0;
-        String CUSTOMERNAME = "";
-        String ADDRESS = "";
-        String PHNUMBER = "";
-        String EMAILADDRESS = "";
-        String PAYMENTMETHOD = "";
-        ArrayList<Customer> Customers = new ArrayList<>();
-
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
-            System.out.println("CustomerID\t Customer Name\t\t\t\t  Address\t\t\t\t\t  Phone Number\t\t\tEmail Address\t\t\t\t   Payment Method");
-            while (rs.next()) {
-                CUSTOMERID = rs.getInt("customerID");
-                CUSTOMERNAME = rs.getString("customerName");
-                ADDRESS = rs.getString("address");
-                PHNUMBER = rs.getString("phoneNumber");
-                EMAILADDRESS = rs.getString("emailAddress");
-                PAYMENTMETHOD = rs.getString("paymentMethod");
-                System.out.printf("\n%d \t\t %-20s\t%-35s %-15s %-30s\t\t %s",CUSTOMERID, CUSTOMERNAME, ADDRESS, PHNUMBER, EMAILADDRESS, PAYMENTMETHOD);
-                Customers.add(new Customer(CUSTOMERID,CUSTOMERNAME,ADDRESS,PHNUMBER,EMAILADDRESS,PAYMENTMETHOD));
-
-            }
-
-        } catch (SQLException e) {
-            System.out.println("error connecting to database" + e.getMessage());
-        }
-        return Customers;
-    }
-    public static ArrayList<Customer> getCustomerDetail(int customerID){
-        int CUSTOMERID = 0;
-        String CUSTOMERNAME = "";
-        String ADDRESS = "";
-        String PHNUMBER = "";
-        String EMAILADDRESS = "";
-        String PAYMENTMETHOD = "";
-        ArrayList<Customer> Customers = new ArrayList<>();
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
-            while (rs.next()) {
-                if (rs.getInt("customerID") == (customerID)) {
-                    CUSTOMERID = rs.getInt("customerID");
-                    CUSTOMERNAME = rs.getString("customerName");
-                    ADDRESS = rs.getString("address");
-                    PHNUMBER = rs.getString("phoneNumber");
-                    EMAILADDRESS = rs.getString("emailAddress");
-                    PAYMENTMETHOD = rs.getString("paymentMethod");
-                    break;
-                }
-            }
-            System.out.println("\nCustomer ID: " + CUSTOMERID + "\nCustomer Name: " + CUSTOMERNAME + " \nAddress: " + ADDRESS + " \nPhone Number: " + PHNUMBER + "\nEmail Address: " + EMAILADDRESS + "\nPayment Method: " + PAYMENTMETHOD);
-            Customers.add(new Customer(CUSTOMERID,CUSTOMERNAME,ADDRESS,PHNUMBER,EMAILADDRESS,PAYMENTMETHOD));
-        } catch (SQLException e) {
-            System.out.println("error connecting to database" + e.getMessage());
-        }return Customers;
-    }
-    public static void expDateCheck() {
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", username, password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            Statement stmt1 = null;
-
-            String query = "SELECT * FROM inventoryprods WHERE ExpirationStatus IS NULL";
-            stmt1 = conn.createStatement();
-            ResultSet rs = stmt1.executeQuery(query);
-            PreparedStatement stmt2 = null;
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            while (rs.next()) {
-                System.out.println("Item Name: "+rs.getString("ItemName"));
-                if (dateFormat.format(rs.getDate("ExpiryDate")).contentEquals(DateAndTime.get_Date())) {
-                    int ID = rs.getInt("itemID");
-                    query = "UPDATE inventoryprods SET ExpirationStatus = ? WHERE itemID = ?";
-                    stmt2 = conn.prepareStatement(query);
-                    stmt2.setString(1,"Expired");
-                    stmt2.setInt(2, ID);
-                    stmt2.executeUpdate();
-                }
-            }
-
-            stmt1.close();
-            if (stmt2 != null) {
-                stmt2.close();
-            }
-            conn.close();
-
-        } catch (SQLException e) {
-            System.out.println("Error connecting to database" + e.getMessage());
-        }
-    }
     public static void expDate() {
         Connection conn = null;
         try {
@@ -1730,185 +1190,7 @@ public class Database {
             System.out.println("Error connecting to database" + e.getMessage());
         }
     }
-    public static ArrayList<Item> expDateReturn() {
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", username, password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ArrayList<Item> Items = new ArrayList<>();
-        try {
-            Statement stmt1 = null;
 
-            System.out.println("Item ID\t\t Item Name\n");
-            String query = "SELECT * FROM inventoryprods WHERE ExpirationStatus = 'Expired'";
-            stmt1 = conn.createStatement();
-            ResultSet rs = stmt1.executeQuery(query);
-            while (rs.next()) {
-                int ID = rs.getInt("itemID");
-                String name = rs.getString("ItemName");
-                System.out.printf("%-13s %-10s\n", ID, name);
-                Items.add(new Item(ID,name));
-            }
-
-            stmt1.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            System.out.println("Error connecting to database" + e.getMessage());
-        }
-        return Items;
-    }
-    public static void getHomeOrderDetail() {
-        int ORDERID = 0;
-        int CUSTOMERID = 0;
-        String ADDRESS = "";
-        String ORDERDATE = "";
-        String ITEMSORDERED = "";
-        int NUMBEROFITEMS = 0;
-        String DELIVERYDATE = "";
-        String ORDERSTATUS = "";
-        double ORDERTOTAL = 0.0;
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-            System.out.println("OrderID\t CustomerID\t\tOrder Date\t\t\tItems Ordered\t\tNumber Of Items\t\t\tDelivery Date\t\t\tAddress\t\t\t\t\t\tOrder Status\tOrder Total");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
-            while (rs.next()) {
-
-                ORDERID = rs.getInt("orderID");
-                CUSTOMERID = rs.getInt("customerID");
-                ORDERDATE = rs.getString("orderDate");
-                ITEMSORDERED = rs.getString("itemsOrdered");
-                NUMBEROFITEMS = rs.getInt("numberOfItems");
-                DELIVERYDATE = rs.getString("deliveryDate");
-                ADDRESS = rs.getString("address");
-                ORDERSTATUS = rs.getString("orderStatus");
-                ORDERTOTAL = rs.getDouble("orderTotal");
-                System.out.printf("\n%d \t\t   %-10d  \t%-15s %-30s %-15d\t %-15s %-35s %-15s  %.2f", ORDERID, CUSTOMERID, ORDERDATE, ITEMSORDERED, NUMBEROFITEMS, DELIVERYDATE, ADDRESS, ORDERSTATUS, ORDERTOTAL);
-
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error connecting to database" + e.getMessage());
-        }
-    }
-    public static void getHomeOrderDetail(int orderID) {
-        int ORDERID = 0;
-        int CUSTOMERID = 0;
-        String ADDRESS = "";
-        String ORDERDATE = "";
-        String ITEMSORDERED = "";
-        int NUMBEROFITEMS = 0;
-        String DELIVERYDATE = "";
-        String ORDERSTATUS = "";
-        double ORDERTOTAL = 0.0;
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
-            while (rs.next()) {
-                if (rs.getInt("orderID") == (orderID)) {
-                    ORDERID = rs.getInt("orderID");
-                    CUSTOMERID = rs.getInt("customerID");
-                    ORDERDATE = rs.getString("orderDate");
-                    ITEMSORDERED = rs.getString("itemsOrdered");
-                    NUMBEROFITEMS = rs.getInt("numberOfItems");
-                    DELIVERYDATE = rs.getString("deliveryDate");
-                    ADDRESS = rs.getString("address");
-                    ORDERSTATUS = rs.getString("orderStatus");
-                    ORDERTOTAL = rs.getDouble("orderTotal");
-                    break;
-                }
-            }
-            System.out.println("\nOrder ID: " + ORDERID + "\nCustomer ID: " + CUSTOMERID + " \nOrder Date: " + ORDERDATE + " \nItems Ordered: " + ITEMSORDERED + "\nNumber of Items: " + NUMBEROFITEMS + "\nDelivery Date: " + DELIVERYDATE + "\nAddress: " + ADDRESS + "\nOrder Status: " + ORDERSTATUS + "\nOrder Total: " + ORDERTOTAL);
-
-        } catch (SQLException e) {
-            System.out.println("error connecting to database" + e.getMessage());
-        }
-    }
-    public static  ArrayList<Order> getOrderDetail() {
-        int ORDERID = 0;
-        int CUSTOMERID = 0;
-        String ADDRESS = "";
-        String ORDERDATE = "";
-        String ITEMSORDERED = "";
-        int NUMBEROFITEMS = 0;
-        String DELIVERYDATE = "";
-        String ORDERSTATUS = "";
-        double ORDERTOTAL = 0.0;
-        ArrayList<Order> Orders= new ArrayList<>();
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-            System.out.println("OrderID\t CustomerID\t\tOrder Date\t\t\tItems Ordered\t\tNumber Of Items\t\t\tDelivery Date\t\t\tAddress\t\t\t\t\t\tOrder Status\tOrder Total");
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
-            while (rs.next()) {
-
-                ORDERID = rs.getInt("orderID");
-                CUSTOMERID = rs.getInt("customerID");
-                ORDERDATE = rs.getString("orderDate");
-                ITEMSORDERED = rs.getString("itemsOrdered");
-                NUMBEROFITEMS = rs.getInt("numberOfItems");
-                DELIVERYDATE = rs.getString("deliveryDate");
-                ADDRESS = rs.getString("address");
-                ORDERSTATUS = rs.getString("orderStatus");
-                ORDERTOTAL = rs.getDouble("orderTotal");
-                System.out.printf("\n%d \t\t   %-10d  \t%-15s %-30s %-15d\t %-15s %-35s %-15s  %.2f", ORDERID, CUSTOMERID, ORDERDATE, ITEMSORDERED, NUMBEROFITEMS, DELIVERYDATE, ADDRESS, ORDERSTATUS, ORDERTOTAL);
-                Orders.add( new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
-            }
-            return Orders;
-
-        } catch (SQLException e) {
-            System.out.println("Error connecting to database" + e.getMessage());
-        }
-        return Orders;
-    }
-    public static ArrayList<Order> getOrderDetail(int orderID) {
-        int ORDERID = 0;
-        int CUSTOMERID = 0;
-        String ADDRESS = "";
-        String ORDERDATE = "";
-        String ITEMSORDERED = "";
-        int NUMBEROFITEMS = 0;
-        String DELIVERYDATE = "";
-        String ORDERSTATUS = "";
-        double ORDERTOTAL = 0.0;
-        ArrayList<Order> Orders = new ArrayList<>();
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
-            conn.setAutoCommit(true);
-
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
-            while (rs.next()) {
-                if (rs.getInt("orderID") == (orderID)) {
-                    ORDERID = rs.getInt("orderID");
-                    CUSTOMERID = rs.getInt("customerID");
-                    ORDERDATE = rs.getString("orderDate");
-                    ITEMSORDERED = rs.getString("itemsOrdered");
-                    NUMBEROFITEMS = rs.getInt("numberOfItems");
-                    DELIVERYDATE = rs.getString("deliveryDate");
-                    ADDRESS = rs.getString("address");
-                    ORDERSTATUS = rs.getString("orderStatus");
-                    ORDERTOTAL = rs.getDouble("orderTotal");
-                    break;
-                }
-            }
-            System.out.println("\nOrder ID: " + ORDERID + "\nCustomer ID: " + CUSTOMERID + " \nOrder Date: " + ORDERDATE + " \nItems Ordered: " + ITEMSORDERED + "\nNumber of Items: " + NUMBEROFITEMS + "\nDelivery Date: " + DELIVERYDATE + "\nAddress: " + ADDRESS + "\nOrder Status: " + ORDERSTATUS + "\nOrder Total: " + ORDERTOTAL);
-            Orders.add(new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
-            return Orders;
-        } catch (SQLException e) {
-            System.out.println("error connecting to database" + e.getMessage());
-            return Orders;
-        }
-    }
     public static void addNewDeliveryOrder(String orderDate, String itemsOrdered, int numberOfItems, String deliveryDate, String address, double orderTotal, String customerName, String phoneNumber, String emailAddress, String paymentMethod){
         Connection conn = null;
         try {
@@ -1961,7 +1243,7 @@ public class Database {
             }
         }
 
-    public static void dispProdPerformance(){
+    public static ArrayList<ProdPerformance> displayProdPerformance(){
         int itemID=0;
         String ItemName="";
         int targetS = 0;
@@ -1971,6 +1253,7 @@ public class Database {
         double unitP = 0.0;
         double costP = 0.0;
         int salesRank = 0;
+        ArrayList<ProdPerformance> prodPerformance = new ArrayList<ProdPerformance>();
         Connection conn = null;
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/salesrecords",username,password);
@@ -1978,7 +1261,6 @@ public class Database {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("ID\tIteam Name\t\tTarget Sale Quantity\t\tActual Sale Quantity\t\tAverage Sale Quantity\t\t Profit Margin\t\tUnit Price\t\tCost Price\t\tSales Rank");
         try {
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM salesrecords.productperformance");
             ResultSet rs = pstmt.executeQuery();
@@ -1993,9 +1275,9 @@ public class Database {
                 unitP=rs.getDouble("unitPrice");
                 costP=rs.getDouble("costPrice");
                 salesRank=rs.getInt("salesRank");
+                prodPerformance.add(new ProdPerformance(itemID, ItemName, targetS, actualS, avgS, profitMargin, unitP, costP, salesRank));
 
-                System.out.printf("\n%s\t %-20s %-30s %-25s \t%-25s %-15s %-15s %-17s %-18s",itemID,ItemName,targetS,actualS,avgS,profitMargin,unitP,costP,salesRank);
-                System.out.println();
+
             }
 
             rs.close();
@@ -2005,7 +1287,49 @@ public class Database {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }//displays product performance during one month
+        return prodPerformance;
+    }
+    public static ArrayList<ProdPerformance> displayProdPerformance(int ID) throws SQLException {
+        int itemID = 0;
+        String ItemName = "";
+        int targetS = 0;
+        int actualS = 0;
+        int avgS = 0;
+        double profitMargin = 0.0;
+        double unitP = 0.0;
+        double costP = 0.0;
+        int salesRank = 0;
+        ArrayList<ProdPerformance> prodPerformance = new ArrayList<>();
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/salesrecords", username, password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM salesrecords.productperformance");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getInt("itemID") == ID) {
+                    itemID = rs.getInt("itemID");
+                    ItemName = rs.getString("ItemName");
+                    targetS = rs.getInt("targetSaleQuantity");
+                    actualS = rs.getInt("actualSaleQuantity");
+                    avgS = rs.getInt("avgSaleQuantity");
+                    profitMargin = rs.getDouble("profitMargin");
+                    unitP = rs.getDouble("unitPrice");
+                    costP = rs.getDouble("costPrice");
+                    salesRank = rs.getInt("salesRank");
+                    prodPerformance.add(new ProdPerformance(itemID, ItemName, targetS, actualS,avgS,profitMargin,unitP,costP,salesRank));
+                }
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return prodPerformance;
+    }
 
     public static sales calcSalesAnalytics(int ID){
         int itemID=0;
@@ -2147,4 +1471,411 @@ public class Database {
             throw new RuntimeException(e);
         }
     }
+    public static ArrayList<Stock> checkitemStock(){
+        int itemID = 0;
+        String iname = null;
+        int current=0;
+        int max=0;
+        int min=0;
+        ArrayList<Stock> Stocks = new ArrayList<>();
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM inventorylevels");
+
+            while (rs.next()){
+                itemID = rs.getInt("itemID");
+                iname = rs.getString("ItemName");
+                current = rs.getInt("CurrentstockLevel");
+                max = rs.getInt("MaxStockLevel");
+                min = rs.getInt("MinStockLevel");
+                Stocks.add(new Stock(itemID,max,min,current,iname));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Stocks;
+    }
+    public static ArrayList<Stock> checkitemStock(int ID){
+        int itemID = 0;
+        String iname = null;
+        int current=0;
+        int max=0;
+        int min=0;
+        ArrayList<Stock> Stocks = new ArrayList<>();
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventorylevels");
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                if (rs.getInt("itemID")==ID){
+                    iname = rs.getString("ItemName");
+                    current = rs.getInt("CurrentstockLevel");
+                    max = rs.getInt("MaxStockLevel");
+                    min = rs.getInt("MinStockLevel");
+                    Stocks.add(new Stock(ID,max,min,current,iname));
+                }
+            }
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Stocks;
+    }
+    public static ArrayList<Item> expDateReturn() {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", username, password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Item> Items = new ArrayList<>();
+        try {
+            Statement stmt1 = null;
+
+            String query = "SELECT * FROM inventoryprods WHERE ExpirationStatus = 'Expired'";
+            stmt1 = conn.createStatement();
+            ResultSet rs = stmt1.executeQuery(query);
+            while (rs.next()) {
+                int ID = rs.getInt("itemID");
+                String name = rs.getString("ItemName");
+                Items.add(new Item(ID,name));
+            }
+
+            stmt1.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error connecting to database" + e.getMessage());
+        }
+        return Items;
+    }
+    public static ArrayList<Item> searchSupplier(String itemName){
+        int ITEMID=0;
+        String ITEMNAME="";
+        double PRICE=0;
+        int QUANTITY=0;
+        String EXPIRYDATE="";
+        Connection conn = null;
+        ArrayList<Item> Suppliers = new ArrayList<>();
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventoryprods WHERE itemName = ?");
+            pstmt.setString(1, itemName);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                if(rs.getString("itemName").contentEquals(itemName)) {
+                    ITEMNAME =rs.getString("ItemName");
+                    ITEMID=rs.getInt("itemID");
+                    PRICE=rs.getDouble("Price");
+                    QUANTITY=rs.getInt("Quantity");
+                    EXPIRYDATE=rs.getString("ExpiryDate");
+                }
+                Suppliers.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE));
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Suppliers;
+    }
+    public static ArrayList<Item> searchSupplier(int itemID){
+        String SUPPNAME = "";
+        int ITEMID=0;
+        String ITEMNAME="";
+        double PRICE=0;
+        int QUANTITY=0;
+        String EXPIRYDATE="";
+        Connection conn = null;
+        ArrayList<Item> Suppliers = new ArrayList<>();
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventoryprods WHERE itemID = ?");
+            pstmt.setInt(1, itemID);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                if(rs.getInt("itemID")==itemID) {
+                    ITEMNAME =rs.getString("ItemName");
+                    ITEMID=rs.getInt("itemID");
+                    PRICE=rs.getDouble("Price");
+                    QUANTITY=rs.getInt("Quantity");
+                    EXPIRYDATE=rs.getString("ExpiryDate");
+                    SUPPNAME = rs.getString("SupplierName");
+                }
+                Item item = new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE);
+                item.setSupp_name(SUPPNAME);
+
+                Suppliers.add(item);
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Suppliers;
+    }
+    public static ArrayList<Supplier> supplierSearch(String suppName){
+        int suppID=0;
+        String supplierName="";
+        String cname="";
+        String title="";
+        String add="";
+        String city="";
+        String region="";
+        String pcode="";
+        String country="";
+        String ph="";
+        String fax="";
+        String email="";
+        String web="";
+        ArrayList<Supplier> searchSupplier = new ArrayList<>();
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventory.supplierinfo WHERE supplierinfo.SupplierName=?");
+            pstmt.setString(1, suppName);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()){
+                if(rs.getString("SupplierName").contentEquals(suppName)) {
+                    suppID = rs.getInt("SupplierID");
+                    supplierName = rs.getString("SupplierName");
+                    cname = rs.getString("ContactName");
+                    title = rs.getString("ContactTitle");
+                    add = rs.getString("Address");
+                    city = rs.getString("City");
+                    region = rs.getString("Region");
+                    pcode = rs.getString("PostalCode");
+                    country = rs.getString("Country");
+                    ph = rs.getString("Phone");
+                    fax = rs.getString("Fax");
+                    email = rs.getString("Email");
+                    web = rs.getString("Website");
+                }
+                searchSupplier.add(new Supplier(suppID,supplierName,cname,title,add,city,region,pcode,country,ph,fax,email,web));
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return searchSupplier;
+    }
+    public static ArrayList<Supplier> supplierSearch(){
+        int suppID=0;
+        String supplierName="";
+        String cname="";
+        String title="";
+        String add="";
+        String city="";
+        String region="";
+        String pcode="";
+        String country="";
+        String ph="";
+        String fax="";
+        String email="";
+        String web="";
+        ArrayList<Supplier> searchSupplier = new ArrayList<>();
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Statement pstmt = conn.createStatement();
+            ResultSet rs = pstmt.executeQuery("SELECT * FROM inventory.supplierinfo");
+
+            while (rs.next()){
+
+                suppID = rs.getInt("SupplierID");
+                supplierName = rs.getString("SupplierName");
+                cname = rs.getString("ContactName");
+                title = rs.getString("ContactTitle");
+                add = rs.getString("Address");
+                city = rs.getString("City");
+                region = rs.getString("Region");
+                pcode = rs.getString("PostalCode");
+                country = rs.getString("Country");
+                ph = rs.getString("Phone");
+                fax = rs.getString("Fax");
+                email = rs.getString("Email");
+                web = rs.getString("Website");
+
+                searchSupplier.add(new Supplier(suppID,supplierName,cname,title,add,city,region,pcode,country,ph,fax,email,web));
+
+            }
+
+            rs.close();
+            pstmt.close();
+            conn.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return searchSupplier;
+    }
+    public static ArrayList<Item> getitemDetails(){
+
+        int ITEMID=0;
+        String ITEMNAME="";
+        double PRICE=0;
+        int QUANTITY=0;
+        String EXPIRYDATE="";
+        String SUPP="";
+        ArrayList<Item> Items = new ArrayList<>() ;
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
+            while (rs.next()){
+                //System.out.println("ItemName: "+rs.getString("ItemName"));
+                ITEMNAME =rs.getString("ItemName");
+                ITEMID=rs.getInt("itemID");
+                PRICE=rs.getDouble("Price");
+                QUANTITY=rs.getInt("Quantity");
+                EXPIRYDATE=rs.getString("ExpiryDate");
+                SUPP= rs.getString("SupplierName");
+                Items.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP));
+            }
+
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e){
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+        //System.out.println("Check");;
+        return Items;
+    }
+    public static ArrayList<Item> getitemDetails(int ItemID){
+        int ITEMID=0;
+        String ITEMNAME="";
+        double PRICE=0;
+        int QUANTITY=0;
+        String EXPIRYDATE="";
+        String SUPP="";
+        ArrayList<Item> Items = new ArrayList<>();
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
+            while (rs.next()){
+                if(ItemID==rs.getInt("itemID")){
+                    //System.out.println("ItemName: "+rs.getString("ItemName"));
+                    ITEMNAME =rs.getString("ItemName");
+                    ITEMID=rs.getInt("itemID");
+                    PRICE=rs.getDouble("Price");
+                    QUANTITY=rs.getInt("Quantity");
+                    EXPIRYDATE=rs.getString("ExpiryDate");
+                    SUPP= rs.getString("SupplierName");
+                    Items.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP));
+                }
+            }
+
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e){
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+        return Items;
+        //System.out.println("Check");;
+    }
+    public static ArrayList<Item> getitemDetails(String itemName){
+        int ITEMID=0;
+        String ITEMNAME="";
+        double PRICE=0;
+        int QUANTITY=0;
+        String EXPIRYDATE="";
+        String SUPP="";
+        ArrayList<Item> Items = new ArrayList<>();
+        try{
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
+            while (rs.next()){
+                if(itemName.contentEquals(rs.getString("ItemName"))){
+
+                    ITEMNAME =rs.getString("ItemName");
+                    ITEMID=rs.getInt("itemID");
+                    PRICE=rs.getDouble("Price");
+                    QUANTITY=rs.getInt("Quantity");
+                    EXPIRYDATE=rs.getString("ExpiryDate");
+                    SUPP= rs.getString("SupplierName");
+                    Items.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP));
+                }
+            }
+
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        }
+        catch (SQLException e){
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
+        return Items;
+    }
+
 }

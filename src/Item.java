@@ -1,19 +1,19 @@
 public class Item{
     private int itemNumber;
-
-    public Item(int itemID, String itemName, double price, int quantity, String expiry_date) {
-        this.itemID = itemID;
-        this.itemName = itemName;
-        this.expiry_date = expiry_date;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
     private int itemID;
     private String itemName;
     private String expiry_date;
-    private double price;
     private String supp_name;
+
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    private double price;
     private int quantity;
     private double total;
     public Item(){}
@@ -30,6 +30,14 @@ public class Item{
         this.price=price;
         this.quantity=quantity;
         this.supp_name=supp_name;
+        total = price * quantity;
+    }
+    public Item(int itemID,String itemName,double price,int quantity,String expiry_date){
+        this.itemID=itemID;
+        this.itemName=itemName;
+        this.expiry_date=expiry_date;
+        this.price=price;
+        this.quantity=quantity;
         total = price * quantity;
     }
 

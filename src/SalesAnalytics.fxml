@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="982.0" style="-fx-background-color: #bbe1ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SalesAnalytics">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="71.0" prefHeight="37.0" prefWidth="901.0" text="Search for a Specific Product's Monthly Sales Analytics Report(Leave blank to view entire inventory)">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="prodPerformanceTable" layoutY="228.0" prefHeight="352.0" prefWidth="982.0">
+         <columns>
+            <TableColumn fx:id="itemID" prefWidth="62.0" text="Item ID" />
+            <TableColumn fx:id="itemName" prefWidth="129.0" text="Item Name" />
+            <TableColumn fx:id="targetS" prefWidth="140.0" text="Target Sale Quantity" />
+            <TableColumn fx:id="actualS" minWidth="9.0" prefWidth="136.0" text="Actual Sale Quantity" />
+            <TableColumn fx:id="avgS" prefWidth="148.0" text="Average Sale Quantity" />
+            <TableColumn fx:id="profitMargin" prefWidth="110.0" text="Profit Margin" />
+            <TableColumn fx:id="unitPrice" text="Unit Price" />
+            <TableColumn fx:id="costPrice" prefWidth="94.0" text="Cost Price" />
+            <TableColumn fx:id="salesRank" prefWidth="81.0" text="Sales Rank" />
+         </columns>
+      </TableView>
+      <Button layoutX="892.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="68.0" style="-fx-background-color: RED;" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="35.0" prefWidth="147.0" style="-fx-background-color: #2086FF;" text="Back to Main Menu" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <TextField fx:id="search" layoutX="373.0" layoutY="134.0" prefHeight="30.0" prefWidth="180.0" promptText="Item ID..." />
+      <Button layoutX="415.0" layoutY="176.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="95.0" style="-fx-background-color: #2086FF;" text="Search" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

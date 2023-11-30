@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -28,15 +25,15 @@ public class CartController implements Initializable {
     @FXML
     TableView<Item> CartTable;
     @FXML
-    private TableColumn<Item, String> TableItemName;
+    private TableColumn TableItemName;
 
     @FXML
-    private TableColumn<Item, Double> TablePrice;
+    private TableColumn TablePrice;
 
     @FXML
-    private TableColumn<Item, Integer> TableQuantity;
+    private TableColumn TableQuantity;
     @FXML
-    private TableColumn<Item, Integer> ItemNumber;
+    private TableColumn ItemNumber;
 
     @FXML
     Label total;
@@ -49,29 +46,39 @@ public class CartController implements Initializable {
 
     public void AddToCart(){
         Item itemtemp = Database.get_itemDetails(ItemName.getText(),Integer.parseInt(Quantity.getText()));
+        System.out.println(ItemName.getText()+" "+Quantity.getText());
         itemtemp.setItemNumber(itemNumber+1);
-        ++itemNumber;
-        Cart.add_item(itemtemp);
-
-        for(Item item:Cart.getInventoryList()){
-            total_amount+=(item.getPrice()* item.getQuantity());
-        }
-        total.setText(String.format("%.2f",new BigDecimal(total_amount)));
-
-        if(total_amount>=100){
-            discounted_amount=total_amount-(total_amount*0.05);
-        }
-        else if(total_amount>=50){
-            discounted_amount=total_amount-(total_amount*0.02);
+        if (itemtemp.getQuantity()==-1){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Quantity required is more than present in stock");
+            alert.showAndWait();
+            ItemName.clear();
+            Quantity.clear();
         }
         else {
-            discounted_amount=total_amount;
+            ++itemNumber;
+            Cart.add_item(itemtemp);
+            total_amount = 0;
+            for(Item item:Cart.getInventoryList()){
+                total_amount+=(item.getPrice()* item.getQuantity());
+            }
+            total.setText(String.format("%.2f",new BigDecimal(total_amount)));
+
+            if(total_amount>=100){
+                discounted_amount=total_amount-(total_amount*0.05);
+            }
+            else if(total_amount>=50){
+                discounted_amount=total_amount-(total_amount*0.02);
+            }
+            else {
+                discounted_amount=total_amount;
+            }
+            discount.setText(String.format("%.2f",new BigDecimal(discounted_amount)));
+            System.out.println(Database.get_itemDetails(ItemName.getText(),Integer.parseInt(Quantity.getText())).getItemNumber());
+            itemList.add(itemtemp);
+            ItemName.clear();
+            Quantity.clear();
         }
-        discount.setText(String.format("%.2f",new BigDecimal(discounted_amount)));
-        System.out.println(Database.get_itemDetails(ItemName.getText(),Integer.parseInt(Quantity.getText())).getItemNumber());
-        itemList.add(itemtemp);
-        ItemName.clear();
-        Quantity.clear();
     }
     public void ProceedToPay(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PaymentScreen.fxml"));
@@ -82,7 +89,10 @@ public class CartController implements Initializable {
     }
     public void Delete(ActionEvent e){
         Cart.remove(Integer.parseInt(RemoveIndex.getText()));
-        total_amount -= itemList.get(Integer.parseInt(RemoveIndex.getText())-1).getPrice()*itemList.get(Integer.parseInt(RemoveIndex.getText())-1).getQuantity();
+        total_amount = 0;
+        for(Item item:Cart.getInventoryList()){
+            total_amount=(item.getPrice()* item.getQuantity());
+        }
         total.setText(String.format("%.2f",new BigDecimal(total_amount)));
 
         if(total_amount>=100){
@@ -111,9 +121,9 @@ public class CartController implements Initializable {
         ArrayList<Item> ItemARRAYLIST = Cart.getInventoryList();
         itemList = FXCollections.observableArrayList(ItemARRAYLIST);
         ItemNumber.setCellValueFactory(new PropertyValueFactory<Item, Integer>("itemNumber"));
-        TableItemName.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
+        TableItemName.setCellValueFactory(new PropertyValueFactory<Item, Integer>("itemName"));
         TableQuantity.setCellValueFactory(new PropertyValueFactory<Item, Integer>("quantity"));
-        TablePrice.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
+        TablePrice.setCellValueFactory(new PropertyValueFactory<Item, Integer>("price"));
         CartTable.setItems(itemList);
     }
 

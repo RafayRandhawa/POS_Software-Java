@@ -124,4 +124,12 @@ public class Supplier {
     public void setRegion(String region) {
         Region = region;
     }
+
+    public String getCountry() {
+        return Country;
+    }
+
+    public void setCountry(String country) {
+        Country = country;
+    }
 }

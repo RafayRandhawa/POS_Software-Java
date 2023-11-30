@@ -19,19 +19,19 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="3.0" layoutY="126.0" prefHeight="32.0" prefWidth="910.0" text="Welcome to the Branch Manager Menu">
+      <Label fx:id="printBranchManagerName" alignment="CENTER" layoutX="457.0" layoutY="77.0" prefHeight="32.0" prefWidth="206.0">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <Label fx:id="printStockManagerName" alignment="CENTER" layoutX="444.0" layoutY="77.0" prefHeight="32.0" prefWidth="60.0">
+      <Label alignment="CENTER" layoutX="3.0" layoutY="126.0" prefHeight="32.0" prefWidth="910.0" text="Welcome to the Branch Manager Menu">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
       <MenuButton fx:id="manageCashiers" alignment="CENTER" contentDisplay="CENTER" layoutX="251.0" layoutY="237.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Cashiers" textFill="WHITE">
         <items>
-            <MenuItem mnemonicParsing="false" onAction="#searchCashierCode" text="View &amp; Search Cashiers" />
+            <MenuItem mnemonicParsing="false" onAction="#searchCashierCode" text="View Search Cashiers" />
           <MenuItem mnemonicParsing="false" onAction="#registerCashier" text="Register a new Cashier" />
             <MenuItem mnemonicParsing="false" onAction="#updateCashierInfo" text="Update information of an existing cashier" />
             <MenuItem mnemonicParsing="false" onAction="#removeCashier" text="Remove a cashier" />
@@ -40,10 +40,10 @@
             <Font size="15.0" />
          </font>
       </MenuButton>
-      <MenuButton fx:id="manageSales" alignment="CENTER" layoutX="511.0" layoutY="237.0" mnemonicParsing="false" onAction="#manageSales" prefHeight="88.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Sales" textFill="WHITE">
+      <MenuButton fx:id="manageSales" alignment="CENTER" layoutX="511.0" layoutY="237.0" mnemonicParsing="false" prefHeight="88.0" prefWidth="206.0" style="-fx-background-color: #2086FF;" text="Manage Sales" textFill="WHITE">
          <items>
-            <MenuItem mnemonicParsing="false" text="Action 1" />
-            <MenuItem mnemonicParsing="false" text="Action 2" />
+            <MenuItem mnemonicParsing="false" onAction="#salesRecord" text="View all/ Search for a sales record" />
+            <MenuItem mnemonicParsing="false" onAction="#salesAnalytics" text="View all/Search Sales Analytics for a product" />
          </items>
          <font>
             <Font size="16.0" />

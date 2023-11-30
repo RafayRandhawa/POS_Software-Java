@@ -3,6 +3,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ public class ManagerController implements Initializable{
     @FXML
     Button ManagerLoginButton;
     Stage stage;
+    private Parent root;
     public String getManagerUserName() {
         return ManagerUserName.getText();
     }
@@ -40,7 +42,7 @@ public class ManagerController implements Initializable{
     }
     public void ManagerTypeBranch(javafx.event.ActionEvent e)throws Exception{
         ManagerType = "B";
-
+        System.out.println("b");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LoginManager.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -48,6 +50,7 @@ public class ManagerController implements Initializable{
         stage.show();
     }
     public void verification(javafx.event.ActionEvent e) throws Exception {
+
         if (tries==0){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("LOCKED OUT\nPlease Contact Admin");

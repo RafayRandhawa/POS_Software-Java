@@ -43,12 +43,22 @@ public class SearchForItemsBySupplier implements Initializable {
     public void Search(ActionEvent actionEvent) {
 
         if (!code.getText().isEmpty()){
-            Items = Database.searchSupplier(code.getText());
-            for (Item item1:Items) {
-                item1.setSupp_name(code.getText());
+            try {
+                int searchValue = Integer.parseInt(code.getText());
+                Items = Database.searchSupplier(searchValue);
+                for (Item item1 : Items) {
+                    item1.setSupp_name(code.getText());
+                }
+                item = FXCollections.observableArrayList(Items);
+                ItemTable.setItems(item);
+            }catch(Exception e){
+                Items = Database.searchSupplier(code.getText());
+                for (Item item1 : Items) {
+                    item1.setSupp_name(code.getText());
+                }
+                item = FXCollections.observableArrayList(Items);
+                ItemTable.setItems(item);
             }
-            item = FXCollections.observableArrayList(Items);
-            ItemTable.setItems(item);
         }
         else {
             Items = Database.getitemDetails();

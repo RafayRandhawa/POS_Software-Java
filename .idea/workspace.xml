@@ -4,22 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="Moving on to Stock Management">
-      <change afterPath="$PROJECT_DIR$/src/ExpiredItems.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ExpiredItems.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SearchForItemsBySupplier.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SearchForItemsBySupplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SearchSupplier.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/SearchSupplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Stock.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Supplier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ViewStockLevels.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ViewStockLevels.java" afterDir="false" />
+    <list default="true" id="e14cec2b-16d3-4cf6-beb0-ba1230404b1d" name="Changes" comment="Mera Kaam Khatam">
+      <change afterPath="$PROJECT_DIR$/src/DisplayCashiers.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/DisplayCashiersController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ManageSales.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ManageSalesController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/ProdPerformance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SalesAnalytics.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SalesAnalytics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/SalesRecord.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchManagerMenu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BranchManagerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BranchManagerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CartController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HomeDeliveryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HomeDeliveryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Home_Delivery.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home_Delivery.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inventory.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StockManagerMenu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/StockManagerMenu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/StockManagerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/StockManagerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ManagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManagerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PurchaseBilling.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RemoveFromInventory.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/RemoveFromInventory.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SearchCashierCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchCashierCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SearchForItemsBySupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchForItemsBySupplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SearchSupplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchSupplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Supplier.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sales.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sales.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,20 +67,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "openjdk-20",
-    "last_opened_file_path": "D:/Java/DS lab/DS_Project",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-20&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hp Zbook/Desktop/POS_Software&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\hp Zbook\Desktop\POS_Software" />
@@ -115,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701024390714</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Mera Kaam Khatam">
+      <option name="closed" value="true" />
+      <created>1701063548724</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701063548724</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -123,6 +145,7 @@
     <MESSAGE value="Final" />
     <MESSAGE value="Yahan tk sn chl raha hai&#10;&#10;Cashiers ki management complete hogai hai" />
     <MESSAGE value="Moving on to Stock Management" />
-    <option name="LAST_COMMIT_MESSAGE" value="Moving on to Stock Management" />
+    <MESSAGE value="Mera Kaam Khatam" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mera Kaam Khatam" />
   </component>
 </project>

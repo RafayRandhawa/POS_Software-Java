@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="571.0" prefWidth="910.0" style="-fx-background-color: #bbe1ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeDeliveryController">
+<AnchorPane prefHeight="571.0" prefWidth="910.0" style="-fx-background-color: #bbe1ff; -fx-background-color: ;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeDeliveryController">
    <children>
       <Label layoutX="135.0" layoutY="151.0" text="Items Ordered">
          <font>
@@ -62,7 +62,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutY="62.0" prefHeight="47.0" prefWidth="910.0" text="Home Delivery Order Placement">
+      <Label alignment="CENTER" layoutY="58.0" prefHeight="47.0" prefWidth="910.0" text="Home Delivery Order Placement">
          <font>
             <Font size="48.0" />
          </font>
@@ -72,14 +72,14 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button fx:id="logout" layoutX="769.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="32.0" prefWidth="125.0" style="-fx-background-color: red;" text="Logout" textFill="WHITE">
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="35.0" prefWidth="147.0" style="-fx-background-color: #2086FF;" text="Back to Main Menu" textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="35.0" prefWidth="147.0" style="-fx-background-color: #2086FF;" text="Back to Main Menu" textFill="WHITE">
+      <Button layoutX="815.0" layoutY="14.0" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="68.0" style="-fx-background-color: RED;" text="Logout" textFill="WHITE">
          <font>
-            <Font size="14.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
       </Button>
    </children>
