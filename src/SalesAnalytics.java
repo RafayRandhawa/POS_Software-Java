@@ -91,9 +91,9 @@ public class SalesAnalytics implements Initializable {
             }
 
             //
-            System.out.println("Hash Map Search Time: "+(HashMapEndTime-HashMapStartTime));
-            System.out.println("Binary Search Tree Search Time: "+(BSTEndTime-BSTStartTime));
-            System.out.println("ArrayList Search Time: "+(ArrayListEndTime-ArrayListStartTime));
+            System.out.println("Hash Map Search Time: "+(HashMapEndTime-HashMapStartTime)+" nanoSeconds");
+            System.out.println("Binary Search Tree Search Time: "+(BSTEndTime-BSTStartTime)+" nanoSeconds");
+            System.out.println("ArrayList Search Time: "+(ArrayListEndTime-ArrayListStartTime)+" nanoSeconds");
 //            System.out.println(HashMapEndTime);
 //            System.out.println(HashMapStartTime);
 //            System.out.println(BSTEndTime);
