@@ -62,6 +62,7 @@ public class SearchSupplier implements Initializable {
     private TextField code;
     ArrayList<Supplier> Suppliers;
     ObservableList<Supplier> supplier;
+    HashMap<Supplier> hashMapSupplier;
     public void mainMenu(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StockManagerMenu.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -78,12 +79,13 @@ public class SearchSupplier implements Initializable {
 
     public void Search(ActionEvent actionEvent) {
         if (!code.getText().isEmpty()){
-            Suppliers = Database.supplierSearch(code.getText());
+            Suppliers = new ArrayList<>();
+            Suppliers.add(hashMapSupplier.SearchKey(Integer.parseInt(code.getText())));
             supplier = FXCollections.observableArrayList(Suppliers);
             SupplierTable.setItems(supplier);
         }
         else {
-            Suppliers = Database.supplierSearch();
+            Suppliers = Main.getSupplierList();
             supplier = FXCollections.observableArrayList(Suppliers);
             SupplierTable.setItems(supplier);
         }
@@ -104,7 +106,8 @@ public class SearchSupplier implements Initializable {
         ContactTitle.setCellValueFactory(new PropertyValueFactory<Supplier,String>("ContactTitle"));
         ContactNumber.setCellValueFactory(new PropertyValueFactory<Supplier,String>("Phone"));
         City.setCellValueFactory(new PropertyValueFactory<Supplier,String>("City"));
-        Suppliers = Database.supplierSearch();
+        Suppliers = Main.getSupplierList();
+        hashMapSupplier = Main.getSupplierMap();
         supplier = FXCollections.observableArrayList(Suppliers);
         SupplierTable.setItems(supplier);
     }

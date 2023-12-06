@@ -19,28 +19,29 @@ public class SearchCashierCode implements Initializable {
     @FXML
     TextField code;
     @FXML
-    private TableView CashierTable;
+    private TableView<Cashier> CashierTable;
 
     @FXML
-    private TableColumn cashierCode;
+    private TableColumn<Cashier,Integer> cashierCode;
 
     @FXML
-    private TableColumn cashierName;
+    private TableColumn<Cashier,String> cashierName;
 
     @FXML
-    private TableColumn employmentStatus;
+    private TableColumn<Cashier,String> employmentStatus;
 
     @FXML
-    private TableColumn joiningDate;
+    private TableColumn<Cashier,String> joiningDate;
 
     @FXML
-    private TableColumn shiftEndTime;
+    private TableColumn<Cashier,String> shiftEndTime;
 
     @FXML
-    private TableColumn shiftStartTime;
+    private TableColumn<Cashier,String> shiftStartTime;
 
     @FXML
-    private TableColumn totalHoursWorked;
+    private TableColumn<Cashier,Integer> totalHoursWorked;
+    HashMap<Cashier> hashMapCashier;
     ArrayList<Cashier> cashiers;
     public void cashierCode(ActionEvent e) {
 
@@ -48,7 +49,9 @@ public class SearchCashierCode implements Initializable {
 //        cashiers = Database.get_CashierDetails();
         try {
             int input1 = Integer.parseInt(input);
-            cashier = FXCollections.observableArrayList(Login.manager.searchCashierList(input1));
+            cashiers = new ArrayList<>();
+            cashiers.add(hashMapCashier.SearchKey(input1));
+            cashier = FXCollections.observableArrayList(cashiers);
         } catch (Exception e1) {
             cashier = FXCollections.observableArrayList(Login.manager.searchCashierList(input));
         }
@@ -60,15 +63,15 @@ public class SearchCashierCode implements Initializable {
     ObservableList<Cashier> cashier = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        cashiers = Database.get_CashierDetails();
-
+        cashiers = Main.getCashierList();
+        hashMapCashier = Main.getCashierMap();
         cashierCode.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("CashierCode"));
-        cashierName.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("CashierName"));
+        cashierName.setCellValueFactory(new PropertyValueFactory<Cashier,String>("CashierName"));
         totalHoursWorked.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("TotalHoursWorked"));
-        joiningDate.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("JoinDate"));
-        shiftStartTime.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("ShiftStart"));
-        shiftEndTime.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("EndShift"));
-        employmentStatus.setCellValueFactory(new PropertyValueFactory<Cashier,Integer>("EmploymentStatus"));
+        joiningDate.setCellValueFactory(new PropertyValueFactory<Cashier,String>("JoinDate"));
+        shiftStartTime.setCellValueFactory(new PropertyValueFactory<Cashier,String>("ShiftStart"));
+        shiftEndTime.setCellValueFactory(new PropertyValueFactory<Cashier,String>("EndShift"));
+        employmentStatus.setCellValueFactory(new PropertyValueFactory<Cashier,String>("EmploymentStatus"));
         cashier = FXCollections.observableArrayList(cashiers);
         CashierTable.setItems(cashier);
 

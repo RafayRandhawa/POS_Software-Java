@@ -27,6 +27,7 @@ public class InventoryManagement implements Initializable {
     public TableColumn<Item,String> SupplierName;
     ArrayList<Item> Items;
     ObservableList<Item> item;
+    HashMap<Item> hashMapItems;
     public void logout(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -46,8 +47,9 @@ public class InventoryManagement implements Initializable {
            String search = code.getText();
            try {
                int id = Integer.parseInt(search);
-               Items = Database.getitemDetails(id);
-
+               Item tempItem = hashMapItems.SearchKey(id);
+               Items = new ArrayList<Item>();
+               Items.add(tempItem);
            }
            catch (Exception a){
                Items = Database.getitemDetails(search);
@@ -57,7 +59,7 @@ public class InventoryManagement implements Initializable {
            ItemTable.setItems(item);
        }
        else {
-           Items = Database.getitemDetails();
+           Items = Main.getItemList();
            item = FXCollections.observableArrayList(Items);
            ItemTable.setItems(item);
 
@@ -72,7 +74,8 @@ public class InventoryManagement implements Initializable {
         Price.setCellValueFactory(new PropertyValueFactory<Item, Double>("price"));
         SupplierName.setCellValueFactory(new PropertyValueFactory<Item,String>("supp_name"));
         ExpiryDate.setCellValueFactory(new PropertyValueFactory<Item,String>("expiry_date"));
-        Items = Database.getitemDetails();
+        hashMapItems = Main.getItemMap();
+        Items = Main.getItemList();
         item = FXCollections.observableArrayList(Items);
         ItemTable.setItems(item);
 

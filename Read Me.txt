@@ -4,3 +4,5 @@ Steps for using this Software
 3: Create a local connection on your System.
 4: Import script Scripts.sql into your Server.
 5: Open POS software folder and provide your MySQL server password in Line 10 of Database.java in src folder.
+6: Next integrate JaveFX into your IDE
+7: You're all good to go

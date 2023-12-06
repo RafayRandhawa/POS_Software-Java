@@ -24,6 +24,7 @@ public class SearchForItemsBySupplier implements Initializable {
     public TableColumn<Item,Integer> ItemID;
     public TableView<Item> ItemTable;
     private ArrayList<Item> Items;
+    HashMap<Item> hashMapItems;
     ObservableList<Item> item ;
 
     public void mainMenu(ActionEvent actionEvent) throws IOException {
@@ -44,24 +45,19 @@ public class SearchForItemsBySupplier implements Initializable {
 
         if (!code.getText().isEmpty()){
             try {
-                int searchValue = Integer.parseInt(code.getText());
-                Items = Database.searchSupplier(searchValue);
-                for (Item item1 : Items) {
-                    item1.setSupp_name(code.getText());
-                }
+                Items = (hashMapItems.SearchKey_Multiple(Integer.parseInt(code.getText())));
+
                 item = FXCollections.observableArrayList(Items);
                 ItemTable.setItems(item);
             }catch(Exception e){
                 Items = Database.searchSupplier(code.getText());
-                for (Item item1 : Items) {
-                    item1.setSupp_name(code.getText());
-                }
+
                 item = FXCollections.observableArrayList(Items);
                 ItemTable.setItems(item);
             }
         }
         else {
-            Items = Database.getitemDetails();
+            Items = Main.getItemList();
             item = FXCollections.observableArrayList(Items);
             ItemTable.setItems(item);
         }
@@ -75,7 +71,8 @@ public class SearchForItemsBySupplier implements Initializable {
         Price.setCellValueFactory(new PropertyValueFactory<>("price"));
         ExpiryDate.setCellValueFactory(new PropertyValueFactory<>("expiry_date"));
         SupplierName.setCellValueFactory(new PropertyValueFactory<>("supp_name"));
-        Items = Database.getitemDetails();
+        hashMapItems = Main.getItemMap();
+        Items = Main.getItemList();
         item = FXCollections.observableArrayList(Items);
         ItemTable.setItems(item);
     }

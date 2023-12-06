@@ -17,47 +17,48 @@ import java.util.ResourceBundle;
 
 public class OrderManagement implements Initializable {
     @FXML
-    public TableColumn OrderDate;
+    public TableColumn<Order,String> OrderDate;
     @FXML
-    public TableColumn OrderStatus;
+    public TableColumn<Order,String> OrderStatus;
     @FXML
-    public TableColumn OrderTotal;
+    public TableColumn<Order,Double> OrderTotal;
     @FXML
     private TableView<Order> OrdersTable;
 
     @FXML
-    private TableColumn Address;
+    private TableColumn<Order,String> Address;
 
     @FXML
-    private TableColumn CustomerID;
+    private TableColumn<Order,Integer> CustomerID;
 
     @FXML
-    private TableColumn DeliveryDate;
+    private TableColumn<Order,String> DeliveryDate;
 
     @FXML
-    private TableColumn ItemsOrdered;
+    private TableColumn<Order,String> ItemsOrdered;
 
     @FXML
-    private TableColumn NumberOfItems;
+    private TableColumn<Order,Integer> NumberOfItems;
 
     @FXML
-    private TableColumn OrderID;
+    private TableColumn<Order,Integer> OrderID;
 
 
     @FXML
     private TextField code;
-
     private ArrayList<Order> Orders;
+    HashMap<Order> hashMapOrder;
     ObservableList<Order> order;
     public void SearchByOrderID(ActionEvent event) {
         if (!code.getText().isEmpty()){
-            Orders = Database.getOrderDetail(Integer.parseInt(code.getText()));
+            Orders = new ArrayList<>();
+            Orders.add(hashMapOrder.SearchKey(Integer.parseInt(code.getText())));
             order = FXCollections.observableArrayList(Orders);
             OrdersTable.setItems(order);
             code.clear();
         }
         else{
-            Orders = Database.getOrderDetail();
+            Orders = Main.getOrderList();
             order = FXCollections.observableArrayList(Orders);
             OrdersTable.setItems(order);
         }
@@ -78,7 +79,8 @@ public class OrderManagement implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Orders = Database.getOrderDetail();
+        hashMapOrder = Main.getOrderMap();
+        Orders = Main.getOrderList();
         Address.setCellValueFactory(new PropertyValueFactory<>("Address"));
         CustomerID.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         DeliveryDate.setCellValueFactory(new PropertyValueFactory<>("DeliveryDate"));

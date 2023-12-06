@@ -1,5 +1,6 @@
 import java.time.LocalDateTime; // Import the LocalDateTime class
 import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+import java.util.Date;
 
 public class DateAndTime {
     public static String get_Date() {
@@ -11,6 +12,9 @@ public class DateAndTime {
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
         return myDateObj.format(time);
+    }
+    public static long get_CurrentTime(){
+       return System.nanoTime();
     }
 
 

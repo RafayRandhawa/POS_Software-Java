@@ -34,26 +34,26 @@ public class CustomerManagement implements Initializable {
     @FXML
     private TableColumn<Customer,String> PaymentMethod;
 
-
+    HashMap<Customer> hashMapOrder;
 
     @FXML
     private TextField code;
 
     private ArrayList<Customer> Customers;
     ObservableList<Customer> customer;
-    public void SearchByOrderID(ActionEvent event) {
-        if (!code.getText().isEmpty()){Customers = Database.getCustomerDetail(Integer.parseInt(code.getText()));
+    public void SearchByCustomerID(ActionEvent event) {
+        if (!code.getText().isEmpty()){
+            Customers = new ArrayList<>();
+            Customers.add(hashMapOrder.SearchKey(Integer.parseInt(code.getText())));
             customer = FXCollections.observableArrayList(Customers);
             CustomersTable.setItems(customer);
             code.clear();
         }
         else {
-            Customers = Database.getCustomerDetail();
+            Customers = Main.getCustomerList();
             customer = FXCollections.observableArrayList(Customers);
             CustomersTable.setItems(customer);
         }
-
-
     }
     public void logout(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Home.fxml"));
@@ -71,7 +71,8 @@ public class CustomerManagement implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Customers = Database.getCustomerDetail();
+        hashMapOrder = Main.getCustomerMap();
+        Customers = Main.getCustomerList();
         Address.setCellValueFactory(new PropertyValueFactory<>("Address"));
         CustomerID.setCellValueFactory(new PropertyValueFactory<>("CustomerID"));
         PaymentMethod.setCellValueFactory(new PropertyValueFactory<>("PaymentMethod"));

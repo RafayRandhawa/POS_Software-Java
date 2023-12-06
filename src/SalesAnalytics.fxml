@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -44,5 +46,14 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <MenuButton layoutX="569.0" layoutY="136.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: #2086FF;" text="Sort by Performance" textFill="WHITE">
+        <items>
+          <MenuItem mnemonicParsing="false" onAction="#ascendingSort" text="Ascending" />
+          <MenuItem mnemonicParsing="false" onAction="#descendingSort" text="Descending" />
+        </items>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </MenuButton>
    </children>
 </AnchorPane>

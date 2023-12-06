@@ -1,8 +1,5 @@
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Database {
     private static final String url = "jdbc:mysql://localhost:3306/employees";
@@ -327,9 +324,6 @@ public class Database {
                 pstmt2.setInt(1,Code);
                 pstmt2.executeUpdate();
             }
-
-
-
             pstmt.close();
             conn.close();
 
@@ -416,7 +410,6 @@ public class Database {
                 PaymentMethod= rs.getString("PaymentMethod");
                 if(CashierCode==cashier_code){
 
-                    System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
                     salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
                 }
             }
@@ -453,8 +446,7 @@ public class Database {
                 NoOfItems= rs.getInt("NoOfItems");
                 PaymentMethod= rs.getString("PaymentMethod");
 
-                    //System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
-                    salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
+                salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
             }
             rs.close();
             stmt.close();
@@ -480,7 +472,6 @@ public class Database {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/onlinedeliverysystem", username, password);
             conn.setAutoCommit(true);
-            System.out.println("OrderID\t CustomerID\t\tOrder Date\t\t\tItems Ordered\t\tNumber Of Items\t\t\tDelivery Date\t\t\tAddress\t\t\t\t\t\tOrder Status\tOrder Total");
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM onlineorders");
             while (rs.next()) {
@@ -494,8 +485,7 @@ public class Database {
                 ADDRESS = rs.getString("address");
                 ORDERSTATUS = rs.getString("orderStatus");
                 ORDERTOTAL = rs.getDouble("orderTotal");
-                System.out.printf("\n%d \t\t   %-10d  \t%-15s %-30s %-15d\t %-15s %-35s %-15s  %.2f", ORDERID, CUSTOMERID, ORDERDATE, ITEMSORDERED, NUMBEROFITEMS, DELIVERYDATE, ADDRESS, ORDERSTATUS, ORDERTOTAL);
-                Orders.add( new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
+                 Orders.add( new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
             }
             return Orders;
 
@@ -535,7 +525,6 @@ public class Database {
                     break;
                 }
             }
-            System.out.println("\nOrder ID: " + ORDERID + "\nCustomer ID: " + CUSTOMERID + " \nOrder Date: " + ORDERDATE + " \nItems Ordered: " + ITEMSORDERED + "\nNumber of Items: " + NUMBEROFITEMS + "\nDelivery Date: " + DELIVERYDATE + "\nAddress: " + ADDRESS + "\nOrder Status: " + ORDERSTATUS + "\nOrder Total: " + ORDERTOTAL);
             Orders.add(new Order(ADDRESS,CUSTOMERID,DELIVERYDATE,ITEMSORDERED,NUMBEROFITEMS,ORDERSTATUS,ORDERTOTAL,ORDERID,ORDERDATE));
             return Orders;
         } catch (SQLException e) {
@@ -558,7 +547,6 @@ public class Database {
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM customers");
-            System.out.println("CustomerID\t Customer Name\t\t\t\t  Address\t\t\t\t\t  Phone Number\t\t\tEmail Address\t\t\t\t   Payment Method");
             while (rs.next()) {
                 CUSTOMERID = rs.getInt("customerID");
                 CUSTOMERNAME = rs.getString("customerName");
@@ -566,7 +554,6 @@ public class Database {
                 PHNUMBER = rs.getString("phoneNumber");
                 EMAILADDRESS = rs.getString("emailAddress");
                 PAYMENTMETHOD = rs.getString("paymentMethod");
-                System.out.printf("\n%d \t\t %-20s\t%-35s %-15s %-30s\t\t %s",CUSTOMERID, CUSTOMERNAME, ADDRESS, PHNUMBER, EMAILADDRESS, PAYMENTMETHOD);
                 Customers.add(new Customer(CUSTOMERID,CUSTOMERNAME,ADDRESS,PHNUMBER,EMAILADDRESS,PAYMENTMETHOD));
 
             }
@@ -601,7 +588,6 @@ public class Database {
                     break;
                 }
             }
-            System.out.println("\nCustomer ID: " + CUSTOMERID + "\nCustomer Name: " + CUSTOMERNAME + " \nAddress: " + ADDRESS + " \nPhone Number: " + PHNUMBER + "\nEmail Address: " + EMAILADDRESS + "\nPayment Method: " + PAYMENTMETHOD);
             Customers.add(new Customer(CUSTOMERID,CUSTOMERNAME,ADDRESS,PHNUMBER,EMAILADDRESS,PAYMENTMETHOD));
         } catch (SQLException e) {
             System.out.println("error connecting to database" + e.getMessage());
@@ -633,7 +619,6 @@ public class Database {
                 NoOfItems= rs.getInt("NoOfItems");
                 PaymentMethod= rs.getString("PaymentMethod");
                 if(salesID==SalesID){
-                    //System.out.printf("\nSalesID: %d\nCashier Code: %d\nSale Date: %s\nSale Time: %s\nAmount: %.2f\nNumber Of Items: %d\nPayment Method: %s\n",SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod);
                     salesRecords.add(new SalesRecord(SalesID,CashierCode,SaleDate,SaleTime,Amount,NoOfItems,PaymentMethod));
                 }
             }
@@ -664,6 +649,7 @@ public class Database {
             int rowsInserted = stmt.executeUpdate();
             stmt.close();
 
+
             conn.close();
             if(rowsInserted==0){
                 System.out.println("Error writing in database");
@@ -686,7 +672,7 @@ public class Database {
             ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
 
             while (rs.next()){
-                //System.out.println("ItemName: "+rs.getString("ItemName"));
+
                 if(rs.getString("ItemName").contentEquals(itemName)) {
                      ITEMID=rs.getInt("itemID");
                      ITEMNAME =rs.getString("ItemName");
@@ -709,7 +695,7 @@ public class Database {
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
-        //System.out.println("Check");
+
         return new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE);
     }
     public static Item get_itemDetails(String itemName){
@@ -745,9 +731,9 @@ public class Database {
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
-        //System.out.println("Check");
+
         return new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SUPP);
-    }//used in updateStockLevels() in class inventory
+    }
     public static void viewAllItems(){
         int ITEMID=0;
         String ITEMNAME="";
@@ -760,10 +746,8 @@ public class Database {
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM inventoryprods ");
-            System.out.println("Item ID\t\tItem Name\t\t\tPrice\t\t\t\tQuantity\t\t\tExpiry Date\t\t\t\t\tSupplier Name\t\t\tCurrent Stock Levels\t\t\tMax Stock Level\t\t\tMinimum Stock Level");
+
             while (rs.next()){
-
-
                     ITEMNAME =rs.getString("ItemName");
                     ITEMID=rs.getInt("itemID");
                     PRICE=rs.getDouble("Price");
@@ -771,8 +755,6 @@ public class Database {
                     EXPIRYDATE=rs.getString("ExpiryDate");
                     SUPP= rs.getString("SupplierName");
                     int[] stock_levels = Database.printStock(ITEMID);
-                System.out.printf("\n%-10s\t %-20s %-20s %-15s \t%-27s %-30s %-31s %-29s %-20s",ITEMID,ITEMNAME,String.valueOf(PRICE),String.valueOf(QUANTITY),EXPIRYDATE,SUPP,stock_levels[0],stock_levels[1],stock_levels[2]);
-                System.out.println();
             }
 
 
@@ -783,7 +765,7 @@ public class Database {
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
-        //System.out.println("Check");
+
 
     }
     public static void updateStock(int itemID, int quantity){
@@ -825,7 +807,7 @@ public class Database {
         catch (SQLException e){
             System.out.println("Error connecting to database: " + e.getMessage());
         }
-    }//used in updateStockLevels() in class inventory
+    }
     public static void addNewItemInv(String ItemName, double price,int quantity,String expiry_date, int currStockLev, int maxStockLev, int minStockLev, String suppName) throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", username, password);
         try {
@@ -862,7 +844,7 @@ public class Database {
             System.out.println("Error connecting to database: " + e.getMessage());
             conn.rollback();
         }
-    }//used in addItem() in class inventory
+    }
     public static int[] checkStock(int ID){
         String iname = null;
         int current=0;
@@ -905,7 +887,7 @@ public class Database {
             throw new RuntimeException(e);
         }
         return stocks;
-    }//used in CheckStockLevels() in class inventory
+    }
     public static int[] printStock(String itemName){
         int current=0;
         int max=0;
@@ -944,7 +926,7 @@ public class Database {
             throw new RuntimeException(e);
         }
         return stocks;
-    }//used in viewItems() in class inventory
+    }
     public static int[] printStock(int ID){
         int current=0;
         int max=0;
@@ -983,7 +965,7 @@ public class Database {
             throw new RuntimeException(e);
         }
         return stocks;
-    }//used in viewItems() in class inventory
+    }
     public static void searchBySupplier(String suppName){
         int ITEMID=0;
         String ITEMNAME="";
@@ -1010,8 +992,7 @@ public class Database {
                     QUANTITY=rs.getInt("Quantity");
                     EXPIRYDATE=rs.getString("ExpiryDate");
                 }
-                System.out.println("--Item ID: " + ITEMID + " --Item Name: " + ITEMNAME + " --Price: " + PRICE + " --Quantity: " + QUANTITY + " --Expiry date: " + EXPIRYDATE);
-                System.out.println();
+
             }
 
             rs.close();
@@ -1021,7 +1002,7 @@ public class Database {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }//used in searchBySupplier() inventory class
+    }
     public static void removeItemInv(int ID){
         Connection conn = null;
         try {
@@ -1050,118 +1031,7 @@ public class Database {
         catch (SQLException e){
             throw new RuntimeException(e);
         }
-    }//used in removeItem() inventory class
-    public static void supplierInfo(){
-        int suppID=0;
-        String suppName="";
-        String cname="";
-        String title="";
-        String add="";
-        String city="";
-        String region="";
-        String pcode="";
-        String country="";
-        String ph="";
-        String fax="";
-        String email="";
-        String web="";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("ID\tSupplier Name\tContact Name\t\t\t\tTitle\t\t\t\tAddress\t\t\t\t\tCity\t\t\tRegion\t\tPostal Code\t\tCountry\t\t\t\t\tPhone\t\t\t\t\t Fax\t\t\t\t\tEmail\t\t\t\t\tWebsite");
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventory.supplierinfo");
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()){
-                suppID=rs.getInt("SupplierID");
-                    suppName =rs.getString("SupplierName");
-                    cname=rs.getString("ContactName");
-                    title=rs.getString("ContactTitle");
-                    add=rs.getString("Address");
-                    city=rs.getString("City");
-                    region=rs.getString("Region");
-                    pcode=rs.getString("PostalCode");
-                    country=rs.getString("Country");
-                    ph=rs.getString("Phone");
-                    fax=rs.getString("Fax");
-                    email=rs.getString("Email");
-                    web=rs.getString("Website");
-
-                //System.out.println("--Item ID: " + ITEMID + " --Item Name: " + ITEMNAME + " --Price: " + PRICE + " --Quantity: " + QUANTITY + " --Expiry date: " + EXPIRYDATE);
-                System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s %-15s %-15s %-15s %-25s %-20s %-25s %-30s",suppID,suppName,cname,title,add,city,region,pcode,country,ph,fax,email,web);
-                System.out.println();
-            }
-
-            rs.close();
-            pstmt.close();
-            conn.close();
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }//used in dispSupplierInfo() in class inventory
-    public static void supplierInfoSearch(String suppName){
-        int suppID=0;
-        String supplierName="";
-        String cname="";
-        String title="";
-        String add="";
-        String city="";
-        String region="";
-        String pcode="";
-        String country="";
-        String ph="";
-        String fax="";
-        String email="";
-        String web="";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory",username,password);
-            conn.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("ID\tSupplier Name\tContact Name\t\t\t\tTitle\t\t\t\tAddress\t\t\t\t\tCity\t\t\tRegion\t\tPostal Code\t\tCountry\t\t\t\t\tPhone\t\t\t\t\t Fax\t\t\t\t\tEmail\t\t\t\t\tWebsite");
-        try {
-            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM inventory.supplierinfo WHERE supplierinfo.SupplierName=?");
-            pstmt.setString(1, suppName);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()){
-                if(rs.getString("SupplierName").contentEquals(suppName)) {
-                    suppID = rs.getInt("SupplierID");
-                    supplierName = rs.getString("SupplierName");
-                    cname = rs.getString("ContactName");
-                    title = rs.getString("ContactTitle");
-                    add = rs.getString("Address");
-                    city = rs.getString("City");
-                    region = rs.getString("Region");
-                    pcode = rs.getString("PostalCode");
-                    country = rs.getString("Country");
-                    ph = rs.getString("Phone");
-                    fax = rs.getString("Fax");
-                    email = rs.getString("Email");
-                    web = rs.getString("Website");
-                }
-                //System.out.println("--Item ID: " + ITEMID + " --Item Name: " + ITEMNAME + " --Price: " + PRICE + " --Quantity: " + QUANTITY + " --Expiry date: " + EXPIRYDATE);
-                System.out.printf("\n%s\t %-15s %-20s %-20s \t%-25s %-15s %-15s %-15s %-15s %-25s %-20s %-25s %-30s",suppID,supplierName,cname,title,add,city,region,pcode,country,ph,fax,email,web);
-                System.out.println();
-            }
-
-            rs.close();
-            pstmt.close();
-            conn.close();
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }//used in searchSupplier() inventory class
-
+    }
     public static void expDate() {
         Connection conn = null;
         try {
@@ -1581,6 +1451,7 @@ public class Database {
         double PRICE=0;
         int QUANTITY=0;
         String EXPIRYDATE="";
+        String SupplierName = "";
         Connection conn = null;
         ArrayList<Item> Suppliers = new ArrayList<>();
         try {
@@ -1601,8 +1472,9 @@ public class Database {
                     PRICE=rs.getDouble("Price");
                     QUANTITY=rs.getInt("Quantity");
                     EXPIRYDATE=rs.getString("ExpiryDate");
+                    SupplierName = rs.getString("SupplierName");
                 }
-                Suppliers.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE));
+                Suppliers.add(new Item(ITEMID,ITEMNAME,PRICE,QUANTITY,EXPIRYDATE,SupplierName));
             }
 
             rs.close();
@@ -1658,7 +1530,7 @@ public class Database {
         }
         return Suppliers;
     }
-    public static ArrayList<Supplier> supplierSearch(String suppName){
+    public static ArrayList<Supplier> getSupplierDetails(String suppName){
         int suppID=0;
         String supplierName="";
         String cname="";
@@ -1713,7 +1585,7 @@ public class Database {
         }
         return searchSupplier;
     }
-    public static ArrayList<Supplier> supplierSearch(){
+    public static ArrayList<Supplier> getSupplierDetails(){
         int suppID=0;
         String supplierName="";
         String cname="";

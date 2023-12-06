@@ -27,41 +27,43 @@ public class ManageSalesController implements Initializable {
     RadioButton ID;
 
     @FXML
-    private TableView salesTable;
+    private TableView<SalesRecord> salesTable;
 
     @FXML
-    private TableColumn salesID;
+    private TableColumn<SalesRecord,Integer> salesID;
 
     @FXML
-    private TableColumn cashierCode;
+    private TableColumn<SalesRecord,Integer> cashierCode;
 
     @FXML
-    private TableColumn saleDate;
+    private TableColumn<SalesRecord,String> saleDate;
 
     @FXML
-    private TableColumn saleTime;
+    private TableColumn<SalesRecord,String> saleTime;
 
     @FXML
-    private TableColumn amount;
+    private TableColumn<SalesRecord,Double> amount;
 
     @FXML
-    private TableColumn numberOfItems;
+    private TableColumn<SalesRecord,Integer> numberOfItems;
 
     @FXML
-    private TableColumn paymentMethod;
+    private TableColumn<SalesRecord,String> paymentMethod;
     ArrayList<SalesRecord> salesRecord;
+    HashMap<SalesRecord> hashMapSales;
     public void search(ActionEvent e) {
         if(!search.getText().isEmpty()) {
             String input = search.getText();
             int input1 = Integer.parseInt(input);
             if (code.isSelected()) {
-                sales = FXCollections.observableArrayList(Database.getSalesRecord(input1));
+                salesRecord = new ArrayList<>();
+                salesRecord.add(hashMapSales.SearchKey(input1));
+                sales = FXCollections.observableArrayList(salesRecord);
             } else if (ID.isSelected()) {
-                sales = FXCollections.observableArrayList(Database.getSalesRecordID(input1));
+                salesRecord = new ArrayList<>();
+                salesRecord.add(Main.hashMapSalesRecordID.SearchKey(input1));
+                sales = FXCollections.observableArrayList(salesRecord);
             }
-//        cashiers = Database.get_CashierDetails();
-
-
             salesTable.setItems(sales);
         }
         else{
@@ -72,8 +74,8 @@ public class ManageSalesController implements Initializable {
     ObservableList<SalesRecord> sales = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        salesRecord = Database.getSalesRecord();
-
+        salesRecord = Main.getSalesRecordList();
+        hashMapSales = Main.getSalesRecordMap();
         salesID.setCellValueFactory(new PropertyValueFactory<SalesRecord,Integer>("SalesID"));
         cashierCode.setCellValueFactory(new PropertyValueFactory<SalesRecord,Integer>("CashierCode"));
         saleDate.setCellValueFactory(new PropertyValueFactory<SalesRecord,String>("SaleDate"));

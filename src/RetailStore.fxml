@@ -2,9 +2,11 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -15,21 +17,21 @@
                 <Font size="29.0" />
             </font>
         </Label>
-      <TextField fx:id="ItemName" layoutX="158.0" layoutY="92.0" prefHeight="62.0" prefWidth="256.0" promptText="item name..." />
-      <TextField fx:id="Quantity" layoutX="158.0" layoutY="194.0" prefHeight="62.0" prefWidth="256.0" promptText="e.g 20" />
+      <TextField fx:id="ItemName" layoutX="151.0" layoutY="106.0" prefHeight="35.0" prefWidth="256.0" promptText="item name..." />
+      <TextField fx:id="Quantity" layoutX="151.0" layoutY="167.0" prefHeight="35.0" prefWidth="256.0" promptText="e.g 20" />
       <Label alignment="CENTER" layoutX="27.0" layoutY="92.0" prefHeight="62.0" prefWidth="114.0" text="Item Name">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="27.0" layoutY="202.0" prefHeight="62.0" prefWidth="114.0" text="Quantity">
+      <Label alignment="CENTER" layoutX="27.0" layoutY="154.0" prefHeight="62.0" prefWidth="114.0" text="Quantity">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="158.0" layoutY="305.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="46.0" prefWidth="154.0" style="-fx-background-color: #2086ff;" text="Add to Cart" textFill="WHITE">
+      <Button layoutX="169.0" layoutY="225.0" mnemonicParsing="false" onAction="#AddToCart" prefHeight="35.0" prefWidth="154.0" style="-fx-background-color: #2086ff;" text="Add to Cart" textFill="WHITE">
          <font>
-            <Font size="22.0" />
+            <Font size="18.0" />
          </font>
       </Button>
       <Button layoutX="717.0" layoutY="508.0" mnemonicParsing="false" onAction="#ProceedToPay" prefHeight="46.0" prefWidth="179.0" style="-fx-background-color: #2086ff;" text="Proceed to Pay" textFill="WHITE">
@@ -65,15 +67,15 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutY="363.0" prefHeight="62.0" prefWidth="442.0" text="Do you want to remove something from Cart?">
+      <Label alignment="CENTER" layoutX="-1.0" layoutY="286.0" prefHeight="46.0" prefWidth="443.0" text="Remove Item or edit quantity:">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TextField fx:id="RemoveIndex" layoutX="13.0" layoutY="434.0" prefHeight="46.0" prefWidth="256.0" promptText="Enter item#" />
-      <Button layoutX="279.0" layoutY="433.0" mnemonicParsing="false" onAction="#Delete" prefHeight="46.0" prefWidth="145.0" style="-fx-background-color: #2086ff;" text="Submit" textFill="WHITE">
+      <TextField fx:id="nameQuantity" layoutX="158.0" layoutY="345.0" prefHeight="35.0" prefWidth="256.0" promptText="Enter item#" />
+      <Button layoutX="173.0" layoutY="449.0" mnemonicParsing="false" onAction="#Delete" prefHeight="39.0" prefWidth="95.0" style="-fx-background-color: #2086ff;" text="Submit" textFill="WHITE">
          <font>
-            <Font size="22.0" />
+            <Font size="18.0" />
          </font>
       </Button>
       <Button layoutX="828.0" layoutY="10.0" mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="68.0" style="-fx-background-color: RED;" text="Logout" textFill="WHITE">
@@ -86,6 +88,13 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <RadioButton fx:id="editQuantity" layoutX="41.0" layoutY="354.0" mnemonicParsing="false" text="Edit quantity">
+         <toggleGroup>
+            <ToggleGroup fx:id="delete" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="removeItem" layoutX="41.0" layoutY="405.0" mnemonicParsing="false" text="Remove Item" toggleGroup="$delete" />
+      <TextField fx:id="nameRemoveItem" layoutX="158.0" layoutY="396.0" prefHeight="35.0" prefWidth="256.0" promptText="Enter item#" />
     </children>
 
 </AnchorPane>
