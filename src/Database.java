@@ -5,6 +5,11 @@ public class Database {
     private static final String url = "jdbc:mysql://localhost:3306/employees";
     private static final String username = "root";
     private static final String password = "Randhawa@147";
+    public void hello_Database(){
+        int a = 0;
+        System.out.println("Hello World");
+
+    }
     public static int getSalesID() {
         int SalesID =0;
         try{
